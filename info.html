@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin - XSpace Store</title>
+    <link rel="icon" href="https://i.imgur.com/k0zikhA.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #f59e0b;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --nav-height: 50px;
+            --modal-overlay: rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-light: #1e293b;
+            --secondary: #f59e0b;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --modal-overlay: rgba(0, 0, 0, 0.7);
+        }
+
+        html {
+            background-color: var(--background);
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.4;
+            padding-bottom: var(--nav-height);
+            font-size: 13px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-icon {
+            position: absolute;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                        opacity 0.5s ease;
+        }
+
+        .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        .moon-icon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        [data-theme="dark"] .sun-icon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
+
+        [data-theme="dark"] .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 20px 0 16px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* Info Cards Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 20px 0 30px;
+        }
+
+        .info-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .info-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .info-icon.store {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+        }
+
+        .info-icon.telegram {
+            background: linear-gradient(135deg, #0088cc, #006699);
+        }
+
+        .info-icon.guide {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+
+        .info-icon.system {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .info-icon.support {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .info-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .info-card-content {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .info-description {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .info-features {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .info-feature i {
+            color: var(--success);
+            font-size: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .info-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .info-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .info-link:active {
+            transform: translateY(0);
+        }
+
+        .info-link i {
+            font-size: 14px;
+        }
+
+        .info-link.store-btn {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+        }
+
+        .info-link.store-btn:hover {
+            background: linear-gradient(135deg, #FF5252, #FF7A3D);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Modal Styles - ĐÃ XÓA HOÀN TOÀN TRONG CODE MỚI */
+        
+        /* Toast Notification - ĐÃ XÓA HOÀN TOÀN TRONG CODE MỚI */
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--background);
+            border-top: 1px solid var(--border);
+            padding: 6px 0;
+            z-index: 1000;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            padding: 4px 0;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            margin-bottom: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon {
+            color: var(--primary);
+            filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.3));
+        }
+
+        .nav-label {
+            font-size: 9px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hiệu ứng hover cho nav item */
+        .nav-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        .nav-item:hover .nav-label {
+            transform: translateY(1px);
+            color: var(--primary);
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .info-card {
+                padding: 16px;
+            }
+            
+            .info-card-header {
+                gap: 10px;
+            }
+            
+            .info-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .page-title {
+                font-size: 18px;
+            }
+            
+            .page-subtitle {
+                font-size: 12px;
+                padding: 0 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .info-card {
+                padding: 14px;
+            }
+            
+            .info-card-title {
+                font-size: 15px;
+            }
+            
+            .info-description {
+                font-size: 12px;
+            }
+            
+            .nav-label {
+                font-size: 8px;
+            }
+            
+            .nav-item.active::after {
+                width: 3px;
+                height: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    XSpace Store
+                </a>
+                <a href="index.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Trở về
+                </a>
+                <div class="user-actions">
+                    <!-- Nút chuyển đổi chế độ sáng/tối -->
+                    <button class="icon-btn theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun theme-icon sun-icon"></i>
+                        <i class="fas fa-moon theme-icon moon-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Page Header -->
+        <section class="page-header">
+            <h1 class="page-title">Thông tin & Hỗ trợ</h1>
+            <p class="page-subtitle">Tìm hiểu về các dịch vụ và nhận hỗ trợ từ XSpace Store. Chúng tôi luôn sẵn sàng giúp bạn có trải nghiệm tốt nhất.</p>
+        </section>
+
+        <!-- Info Cards Grid -->
+        <section class="info-grid">
+            <!-- Card 1: Kho ứng dụng chính thức -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon store">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h2 class="info-card-title">Kho ứng dụng chính thức</h2>
+                </div>
+                <div class="info-card-content">
+                    <p class="info-description">Trải nghiệm cửa hàng ứng dụng cao cấp ngay trên thiết bị của bạn. Kho ứng dụng XSpace với giao diện tinh tế, tốc độ tải nhanh và thư viện ứng dụng đa dạng, mang đến trải nghiệm như AppStore nhưng phiên bản nâng cấp xịn sò hơn.</p>
+                    <ul class="info-features">
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Giao diện cao cấp, trải nghiệm mượt mà</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cài đặt trực tiếp không cần qua web</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cập nhật tự động, thông báo realtime</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://modos.site/download/" target="_blank" class="info-link store-btn">
+                    <i class="fas fa-download"></i>
+                    Cài đặt ngay
+                </a>
+            </div>
+
+            <!-- Card 2: Kênh thông báo -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon telegram">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h2 class="info-card-title">Kênh thông báo cập nhật ứng dụng</h2>
+                </div>
+                <div class="info-card-content">
+                    <p class="info-description">Tham gia kênh Telegram chính thức của XSpace Store để nhận thông báo ngay khi có ứng dụng mới, bản cập nhật và tin tức quan trọng.</p>
+                    <ul class="info-features">
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cập nhật ứng dụng mới nhất</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Thông báo bản cập nhật quan trọng</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Tin tức và thông báo từ đội ngũ</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://t.me/xpace_ipa" target="_blank" class="info-link">
+                    <i class="fab fa-telegram"></i>
+                    Tham gia kênh Telegram
+                </a>
+            </div>
+
+            <!-- Card 3: Hướng dẫn cài đặt -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon guide">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h2 class="info-card-title">Hướng dẫn cài đặt ứng dụng iPA</h2>
+                </div>
+                <div class="info-card-content">
+                    <p class="info-description">Hướng dẫn chi tiết từng bước để cài đặt ứng dụng iPA trên thiết bị iOS của bạn. Đảm bảo quá trình cài đặt diễn ra suôn sẻ và an toàn.</p>
+                    <ul class="info-features">
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Hướng dẫn từng bước chi tiết</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Khắc phục sự cố thường gặp</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mẹo và thủ thuật hữu ích</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://ioscert.site/huong-dan-esign/" target="_blank" class="info-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    Xem hướng dẫn chi tiết
+                </a>
+            </div>
+
+            <!-- Card 4: Hệ thống ký ứng dụng -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon system">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h2 class="info-card-title">Hệ thống ký ứng dụng iPA trực tuyến</h2>
+                </div>
+                <div class="info-card-content">
+                    <p class="info-description">Truy cập hệ thống ký ứng dụng iPA trực tuyến để ký ứng dụng trước khi cài đặt. Dịch vụ nhanh chóng, an toàn và đáng tin cậy.</p>
+                    <ul class="info-features">
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Ký ứng dụng trực tuyến nhanh chóng</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Bảo mật thông tin cá nhân</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Hỗ trợ nhiều loại chứng chỉ</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://ioscert.site/sign-apps" target="_blank" class="info-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    Truy cập hệ thống ký
+                </a>
+            </div>
+
+            <!-- Card 5: Hỗ trợ -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon support">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h2 class="info-card-title">Liên hệ nhân viên hỗ trợ</h2>
+                </div>
+                <div class="info-card-content">
+                    <p class="info-description">Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn. Liên hệ ngay khi gặp vấn đề hoặc cần tư vấn về dịch vụ và ứng dụng.</p>
+                    <ul class="info-features">
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Hỗ trợ 24/7 qua Telegram</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Giải đáp thắc mắc nhanh chóng</span>
+                        </li>
+                        <li class="info-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Tư vấn kỹ thuật chuyên sâu</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="https://t.me/m/inBUSKQ1N2E1" target="_blank" class="info-link">
+                    <i class="fab fa-telegram"></i>
+                    Liên hệ hỗ trợ ngay
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="container">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="nav-label">Trang chủ</div>
+                </a>
+                <a href="index.html#gamesSection" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="nav-label">Trò chơi</div>
+                </a>
+                <a href="index.html#searchNavItem" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="nav-label">Tìm kiếm</div>
+                </a>
+                <a href="info.html" class="nav-item active">
+                    <div class="nav-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="nav-label">Thông tin</div>
+                </a>
+                <a href="account.html" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="nav-label">Tài khoản</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Quản lý chế độ sáng/tối cho trang info.html
+        class ThemeManager {
+            constructor() {
+                this.themeToggle = document.getElementById('themeToggle');
+                this.htmlElement = document.documentElement;
+                this.body = document.body;
+                this.init();
+            }
+            
+            init() {
+                // Kiểm tra theme đã lưu
+                const savedTheme = localStorage.getItem('theme');
+                
+                // Áp dụng theme đã lưu hoặc mặc định (light)
+                if (savedTheme === 'dark') {
+                    this.setTheme('dark');
+                } else {
+                    // Mặc định là light mode
+                    this.setTheme('light');
+                    localStorage.setItem('theme', 'light');
+                }
+                
+                // Thêm sự kiện click cho nút chuyển đổi
+                this.themeToggle.addEventListener('click', (e) => this.toggleTheme(e));
+            }
+            
+            setTheme(theme) {
+                const isDark = theme === 'dark';
+                this.htmlElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                // Cập nhật icon
+                this.updateThemeIcon(isDark);
+                
+                // Cập nhật meta theme-color cho viền trên cùng
+                this.updateMetaThemeColor(isDark);
+            }
+            
+            toggleTheme(e) {
+                const currentTheme = this.htmlElement.getAttribute('data-theme');
+                const isDark = currentTheme === 'dark';
+                this.setTheme(isDark ? 'light' : 'dark');
+                
+                // Thêm hiệu ứng ripple
+                this.createRippleEffect(e);
+            }
+            
+            updateThemeIcon(isDark) {
+                const sunIcon = this.themeToggle.querySelector('.sun-icon');
+                const moonIcon = this.themeToggle.querySelector('.moon-icon');
+                
+                if (isDark) {
+                    sunIcon.style.opacity = '0';
+                    sunIcon.style.transform = 'rotate(90deg) scale(0.5)';
+                    moonIcon.style.opacity = '1';
+                    moonIcon.style.transform = 'rotate(0deg) scale(1)';
+                } else {
+                    sunIcon.style.opacity = '1';
+                    sunIcon.style.transform = 'rotate(0deg) scale(1)';
+                    moonIcon.style.opacity = '0';
+                    moonIcon.style.transform = 'rotate(-90deg) scale(0.5)';
+                }
+            }
+            
+            updateMetaThemeColor(isDark) {
+                // Cập nhật màu theme cho thanh địa chỉ và UI trình duyệt
+                const themeColor = isDark ? '#0f172a' : '#ffffff';
+                
+                let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (!metaThemeColor) {
+                    metaThemeColor = document.createElement('meta');
+                    metaThemeColor.name = 'theme-color';
+                    document.head.appendChild(metaThemeColor);
+                }
+                metaThemeColor.content = themeColor;
+                
+                // Cập nhật màu cho Safari
+                let metaAppleThemeColor = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+                if (!metaAppleThemeColor) {
+                    metaAppleThemeColor = document.createElement('meta');
+                    metaAppleThemeColor.name = 'apple-mobile-web-app-status-bar-style';
+                    document.head.appendChild(metaAppleThemeColor);
+                }
+                metaAppleThemeColor.content = isDark ? 'black' : 'default';
+            }
+            
+            createRippleEffect(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = button.getElementsByClassName('ripple')[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                button.appendChild(circle);
+                
+                // Xóa ripple sau khi animation kết thúc
+                setTimeout(() => {
+                    if (circle.parentNode === button) {
+                        button.removeChild(circle);
+                    }
+                }, 600);
+            }
+        }
+        
+        // Khởi tạo khi trang được tải
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeManager = new ThemeManager();
+            
+            // Kiểm tra và áp dụng theme ngay lập tức để tránh flash
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
+            // Thêm hiệu ứng hover cho các card thông tin
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Thêm hiệu ứng hover cho các link
+            const infoLinks = document.querySelectorAll('.info-link');
+            infoLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    if (!link.classList.contains('disabled')) {
+                        link.style.transform = 'translateY(-2px)';
+                    }
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    link.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Thêm hiệu ứng hover cho các mục navbar (tương tự trang chủ)
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                // Hiệu ứng khi hover
+                item.addEventListener('mouseenter', () => {
+                    const icon = item.querySelector('.nav-icon');
+                    const label = item.querySelector('.nav-label');
+                    
+                    // Hiệu ứng icon
+                    icon.style.transform = 'translateY(-4px) scale(1.1)';
+                    icon.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    
+                    // Hiệu ứng label
+                    label.style.transform = 'translateY(2px)';
+                    label.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    
+                    // Hiệu ứng màu sắc
+                    if (!item.classList.contains('active')) {
+                        item.style.color = 'var(--primary)';
+                    }
+                });
+                
+                // Hiệu ứng khi rời chuột
+                item.addEventListener('mouseleave', () => {
+                    const icon = item.querySelector('.nav-icon');
+                    const label = item.querySelector('.nav-label');
+                    
+                    // Khôi phục icon
+                    icon.style.transform = 'translateY(0) scale(1)';
+                    
+                    // Khôi phục label
+                    label.style.transform = 'translateY(0)';
+                    
+                    // Khôi phục màu sắc
+                    if (!item.classList.contains('active')) {
+                        item.style.color = '';
+                    }
+                });
+            });
+            
+            // Hiệu ứng cho nút cài đặt kho ứng dụng
+            const storeBtn = document.querySelector('.info-link.store-btn');
+            if (storeBtn) {
+                storeBtn.addEventListener('mouseenter', () => {
+                    storeBtn.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                storeBtn.addEventListener('mouseleave', () => {
+                    storeBtn.style.transform = 'translateY(0) scale(1)';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chính Sách Bảo Mật - XSpace Store</title>
+    <link rel="icon" href="https://i.imgur.com/k0zikhA.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Theme Variables - Đồng bộ với website chính */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-light: #1e293b;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html, body {
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+        body {
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--text-primary);
+            margin: 20px 0 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        ul {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            padding-left: 5px;
+        }
+
+        /* Special Sections */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+            padding: 18px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .highlight {
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-block;
+            margin: 2px 0;
+        }
+
+        .date {
+            text-align: right;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Content Box */
+        .content-box {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--background);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            font-size: 18px;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .security-badge {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            p, li {
+                font-size: 14px;
+            }
+            
+            .theme-toggle-btn,
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+                bottom: 15px;
+            }
+            
+            .back-to-top {
+                bottom: 75px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-shield-alt"></i> CHÍNH SÁCH BẢO MẬT</h1>
+        
+        <div class="security-badge">
+            <i class="fas fa-lock"></i>
+            <span>Trang web an toàn • Dữ liệu được mã hóa • Không chia sẻ thông tin</span>
+        </div>
+        
+        <h2>1. Thông Tin Thu Thập</h2>
+        <p>Chúng tôi chỉ thu thập thông tin cần thiết để cung cấp dịch vụ:</p>
+        <ul>
+            <li><span class="highlight">Tên đăng nhập</span> - Để nhận diện tài khoản</li>
+            <li><span class="highlight">Địa chỉ email</span> - Để liên lạc và khôi phục tài khoản</li>
+            <li><span class="highlight">Mật khẩu</span> - Được mã hóa SHA-256, không lưu dạng văn bản thuần</li>
+            <li><span class="highlight">Thông tin gói dịch vụ</span> - Để quản lý quyền truy cập</li>
+        </ul>
+        
+        <div class="content-box">
+            <h3>Loại dữ liệu không thu thập:</h3>
+            <p>Chúng tôi KHÔNG thu thập: thông tin thẻ tín dụng, địa chỉ nhà, số điện thoại, dữ liệu vị trí, hoặc bất kỳ thông tin nhạy cảm nào khác.</p>
+        </div>
+        
+        <h2>2. Mục Đích Sử Dụng</h2>
+        <p>Thông tin được sử dụng để:</p>
+        <ul>
+            <li>Xác thực và bảo mật tài khoản người dùng</li>
+            <li>Cung cấp dịch vụ tải ứng dụng theo gói đăng ký</li>
+            <li>Gửi thông báo quan trọng về tài khoản và dịch vụ</li>
+            <li>Cải thiện trải nghiệm người dùng và tối ưu hóa hệ thống</li>
+            <li>Ngăn chặn gian lận, lạm dụng và bảo vệ an ninh hệ thống</li>
+            <li>Tuân thủ các yêu cầu pháp lý khi có yêu cầu từ cơ quan có thẩm quyền</li>
+        </ul>
+        
+        <h2>3. Bảo Mật Dữ Liệu</h2>
+        <p>Chúng tôi cam kết bảo vệ thông tin của bạn bằng các biện pháp kỹ thuật tiên tiến:</p>
+        <ul>
+            <li>Mã hóa mật khẩu bằng thuật toán SHA-256</li>
+            <li>Lưu trữ trên hệ thống với quyền truy cập hạn chế nghiêm ngặt</li>
+            <li>Không chia sẻ, bán hoặc trao đổi thông tin với bên thứ ba</li>
+            <li>Chỉ lưu trữ thông tin cần thiết nhất cho mục đích dịch vụ</li>
+            <li>Xóa dữ liệu hoàn toàn khi người dùng yêu cầu xóa tài khoản</li>
+            <li>Thường xuyên kiểm tra và cập nhật các biện pháp bảo mật</li>
+        </ul>
+        
+        <h2>4. Quyền Của Người Dùng</h2>
+        <p>Theo quy định bảo vệ dữ liệu, bạn có các quyền sau:</p>
+        <ul>
+            <li><span class="highlight">Quyền truy cập</span> - Xem thông tin cá nhân của mình</li>
+            <li><span class="highlight">Quyền chỉnh sửa</span> - Cập nhật thông tin tài khoản bất kỳ lúc nào</li>
+            <li><span class="highlight">Quyền xóa</span> - Yêu cầu xóa tài khoản và dữ liệu cá nhân</li>
+            <li><span class="highlight">Quyền từ chối</span> - Từ chối thu thập dữ liệu không cần thiết</li>
+            <li><span class="highlight">Quyền thông báo</span> - Nhận thông báo khi có thay đổi chính sách</li>
+            <li><span class="highlight">Quyền khiếu nại</span> - Khiếu nại về việc xử lý dữ liệu cá nhân</li>
+        </ul>
+        
+        <h2>5. Cookie và Công Nghệ Theo Dõi</h2>
+        <p>Để cung cấp dịch vụ tốt nhất, chúng tôi chỉ sử dụng:</p>
+        <ul>
+            <li>Session cookies để duy trì trạng thái đăng nhập trong phiên làm việc</li>
+            <li>LocalStorage để lưu cài đặt giao diện và tùy chọn người dùng</li>
+            <li>Hoàn toàn không sử dụng tracking cookies của bên thứ ba</li>
+            <li>Không theo dõi hành vi duyệt web hoặc thu thập dữ liệu phân tích</li>
+            <li>Bạn có thể xóa cookie và LocalStorage bất kỳ lúc nào qua trình duyệt</li>
+        </ul>
+        
+        <h2>6. Thời Gian Lưu Trữ Dữ Liệu</h2>
+        <p>Chúng tôi chỉ lưu trữ dữ liệu trong thời gian cần thiết:</p>
+        <ul>
+            <li>Dữ liệu tài khoản: Được lưu trữ đến khi người dùng xóa tài khoản</li>
+            <li>Dữ liệu đăng nhập: Tự động xóa sau 30 ngày không hoạt động</li>
+            <li>Dữ liệu giao dịch: Được lưu trữ theo yêu cầu pháp lý (nếu có)</li>
+            <li>Dữ liệu cache ứng dụng: Tự động làm mới hàng ngày</li>
+        </ul>
+        
+        <h2>7. Liên Hệ và Khiếu Nại</h2>
+        <p>Mọi thắc mắc về bảo mật hoặc khiếu nại về việc xử lý dữ liệu, vui lòng liên hệ:</p>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>Email: support@modos.site</span>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-telegram"></i>
+                <span>Telegram: @xspace_ipa</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-clock"></i>
+                <span>Thời gian phản hồi: 24-48 giờ</span>
+            </div>
+        </div>
+        
+        <h2>8. Thay Đổi Chính Sách</h2>
+        <p>Chúng tôi có thể cập nhật chính sách bảo mật này để phản ánh các thay đổi trong thực tiễn hoặc pháp luật. Mọi thay đổi quan trọng sẽ được thông báo:</p>
+        <ul>
+            <li>Qua email đăng ký của người dùng</li>
+            <li>Thông báo nổi bật trên trang web trong ít nhất 7 ngày</li>
+            <li>Cập nhật ngày hiệu lực ở cuối trang này</li>
+            <li>Người dùng được khuyến nghị xem lại chính sách định kỳ</li>
+        </ul>
+        
+        <div class="date">
+            <strong>Ngày hiệu lực:</strong> 13/01/2024<br>
+            <strong>Cập nhật lần cuối:</strong> 13/01/2024
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Quay lại đầu trang">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối">
+            <i class="fas fa-moon moon-icon"></i>
+            <i class="fas fa-sun sun-icon"></i>
+        </button>
+    </div>
+
+    <script>
+        // Theme Manager - Đồng bộ với website chính
+        class ThemeManager {
+            constructor() {
+                this.themeToggle = document.getElementById('themeToggle');
+                this.htmlElement = document.documentElement;
+                this.sunIcon = this.themeToggle.querySelector('.sun-icon');
+                this.moonIcon = this.themeToggle.querySelector('.moon-icon');
+                this.init();
+            }
+            
+            init() {
+                // Kiểm tra theme đã lưu trong localStorage
+                const savedTheme = localStorage.getItem('theme');
+                
+                // Áp dụng theme đã lưu hoặc mặc định (light)
+                if (savedTheme === 'dark') {
+                    this.setTheme('dark');
+                } else {
+                    this.setTheme('light');
+                    localStorage.setItem('theme', 'light');
+                }
+                
+                // Thêm sự kiện click cho nút chuyển đổi
+                this.themeToggle.addEventListener('click', () => this.toggleTheme());
+                
+                // Lắng nghe thay đổi theme từ các trang khác
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'theme') {
+                        this.setTheme(e.newValue);
+                    }
+                });
+            }
+            
+            setTheme(theme) {
+                const isDark = theme === 'dark';
+                this.htmlElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                // Cập nhật icon
+                this.updateThemeIcon(isDark);
+                
+                // Cập nhật meta theme-color cho viền trên cùng
+                this.updateMetaThemeColor(isDark);
+            }
+            
+            toggleTheme() {
+                const currentTheme = this.htmlElement.getAttribute('data-theme');
+                const isDark = currentTheme === 'dark';
+                this.setTheme(isDark ? 'light' : 'dark');
+            }
+            
+            updateThemeIcon(isDark) {
+                if (isDark) {
+                    this.sunIcon.style.display = 'none';
+                    this.moonIcon.style.display = 'block';
+                } else {
+                    this.sunIcon.style.display = 'block';
+                    this.moonIcon.style.display = 'none';
+                }
+            }
+            
+            updateMetaThemeColor(isDark) {
+                // Cập nhật màu theme cho thanh địa chỉ và UI trình duyệt
+                const themeColor = isDark ? '#0f172a' : '#ffffff';
+                
+                let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (!metaThemeColor) {
+                    metaThemeColor = document.createElement('meta');
+                    metaThemeColor.name = 'theme-color';
+                    document.head.appendChild(metaThemeColor);
+                }
+                metaThemeColor.content = themeColor;
+            }
+        }
+        
+        // Back to Top Functionality
+        class BackToTop {
+            constructor() {
+                this.button = document.getElementById('backToTop');
+                this.init();
+            }
+            
+            init() {
+                // Ẩn nút ban đầu
+                this.button.style.display = 'none';
+                
+                // Hiển thị/ẩn nút khi cuộn
+                window.addEventListener('scroll', () => this.toggleVisibility());
+                
+                // Thêm sự kiện click
+                this.button.addEventListener('click', () => this.scrollToTop());
+            }
+            
+            toggleVisibility() {
+                if (window.pageYOffset > 300) {
+                    this.button.style.display = 'flex';
+                } else {
+                    this.button.style.display = 'none';
+                }
+            }
+            
+            scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // Khởi tạo khi trang được tải
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeManager();
+            new BackToTop();
+            
+            // Kiểm tra và áp dụng theme ngay lập tức để tránh flash
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

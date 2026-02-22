@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tài khoản - XSpace Store</title>
+    <link rel="icon" href="https://i.imgur.com/k0zikhA.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Trust & Security Meta Tags -->
+    <meta name="description" content="XSpace Store - Quản lý tài khoản để tải ứng dụng iOS miễn phí. Đăng ký hoặc đăng nhập để truy cập kho ứng dụng.">
+    <meta name="keywords" content="iOS apps, tải ứng dụng, iPhone, iPad, tài khoản, đăng ký, đăng nhập">
+    <meta name="author" content="XSpace Store">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE">
+    <meta name="security" content="ssl">
+    <meta property="og:title" content="XSpace Store - Tài Khoản">
+    <meta property="og:description" content="Quản lý tài khoản XSpace Store">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://modos.site/account.html">
+    
+    <!-- Sử dụng CSS chính từ index.html -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <script src="js/config.js"></script>
+
+    <style>
+        /* Page-specific styles */
+        :root {
+            --primary:#2076f3; --primary-dark:#0cabeb; --primary-light:#e1f0ff;
+            --success:#10b981; --danger:#ef4444; --warning:#f59e0b;
+            --refresh-bg:#f1f5f9; --refresh-hover:#e1f0ff; --refresh-active:#d1e4ff;
+            --premium: linear-gradient(135deg, #f59e0b, #eab308, #f97316);
+        }
+        
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-light: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --refresh-bg: #1e293b;
+            --refresh-hover: #2d3748;
+            --refresh-active: #3c4b5f;
+            --premium: linear-gradient(135deg, #f59e0b, #eab308, #f97316);
+        }
+        
+        /* Ripple effect cho theme toggle */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Pulse effect cho nút Telegram */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .telegram-btn:hover {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 60px;
+        }
+
+        /* Welcome Section */
+        .welcome-section { text-align:center; margin-bottom:20px; padding:0 12px; }
+        .welcome-title { font-size:20px; font-weight:700; margin-bottom:8px; color:var(--text-primary); }
+        .welcome-subtitle { font-size:14px; color:var(--text-secondary); line-height:1.5; }
+
+        /* Account Container */
+        .account-container { max-width:400px; margin:20px auto; padding:0 12px; }
+        .auth-card { 
+            background:var(--surface); border-radius:12px; overflow:hidden; 
+            box-shadow:var(--card-shadow); border:1px solid var(--border); 
+            padding:20px; transition:all .3s; 
+        }
+        .auth-card:hover { 
+            transform:translateY(-2px); box-shadow:var(--card-shadow-hover); 
+        }
+
+        /* Tabs */
+        .auth-tabs { 
+            display:flex; margin-bottom:20px; 
+            background:var(--surface); border-radius:10px; 
+            padding:4px; border:1px solid var(--border); 
+        }
+        .auth-tab { 
+            flex:1; padding:10px; border:none; background:transparent; 
+            color:var(--text-secondary); border-radius:8px; 
+            cursor:pointer; font-weight:600; font-size:13px; transition:all .3s; 
+        }
+        .auth-tab.active { 
+            background:linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+            color:white; 
+        }
+
+        /* Forms */
+        .auth-form { display:none; }
+        .auth-form.active { display:block; }
+        .form-group { margin-bottom:14px; }
+        .form-label { 
+            display:block; font-weight:600; margin-bottom:6px; 
+            color:var(--text-primary); font-size:12px; 
+            display:flex; align-items:center; gap:6px; 
+        }
+        .form-input { 
+            width:100%; padding:10px 14px; border:1px solid var(--border); 
+            border-radius:10px; font-size:13px; transition:all .3s; 
+            background:var(--background); color:var(--text-primary); 
+        }
+        .form-input:focus { 
+            outline:none; border-color:var(--primary); 
+            box-shadow:0 0 0 3px rgba(32, 118, 243, 0.1); 
+        }
+        .submit-btn { 
+            width:100%; background:linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+            color:white; border:none; padding:12px; border-radius:10px; 
+            font-weight:700; cursor:pointer; transition:all .3s; 
+            font-size:13px; margin-top:6px; 
+            display:flex; align-items:center; justify-content:center; gap:8px; 
+        }
+        .submit-btn:hover { 
+            background:linear-gradient(90deg, var(--primary), var(--primary-dark)); 
+            transform:translateY(-1px); 
+        }
+        .submit-btn:disabled { 
+            background:var(--text-muted); cursor:not-allowed; transform:none; 
+        }
+
+        /* Messages */
+        .message { 
+            padding:10px 14px; border-radius:10px; margin-bottom:14px; 
+            display:none; align-items:center; gap:8px; 
+            border:1px solid transparent; font-size:12px; 
+        }
+        .message-success { 
+            background:rgba(16,185,129,0.1); color:var(--success); 
+            border-color:rgba(16,185,129,0.2); 
+        }
+        .message-error { 
+            background:rgba(239,68,68,0.1); color:var(--danger); 
+            border-color:rgba(239,68,68,0.2); 
+        }
+
+        /* User Info */
+        .user-info { display:none; text-align:center; }
+        .user-info.active { display:block; }
+        .user-avatar { 
+            width:80px; height:80px; border-radius:50%; 
+            background:linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+            color:white; display:flex; align-items:center; justify-content:center; 
+            font-size:32px; font-weight:700; margin:0 auto 16px; 
+            box-shadow:0 4px 8px rgba(12, 171, 235, 0.2); 
+        }
+        .user-name { font-size:20px; font-weight:700; margin-bottom:8px; color:var(--text-primary); }
+        .user-details { 
+            background:var(--surface); border-radius:12px; padding:16px; 
+            margin:16px 0; border:1px solid var(--border); 
+        }
+        .user-detail { 
+            color:var(--text-secondary); margin-bottom:8px; font-size:13px; 
+            display:flex; align-items:center; justify-content:flex-start; gap:8px; padding:6px 0; 
+        }
+        .user-detail i { width:18px; color:var(--primary); }
+        .user-badge { 
+            display:inline-flex; align-items:center; gap:6px; 
+            background:linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+            color:white; padding:6px 12px; border-radius:16px; 
+            font-size:12px; font-weight:700; margin:10px 0; 
+            box-shadow:0 2px 6px rgba(0,0,0,0.1); 
+        }
+        .user-badge.free { background:var(--text-muted); }
+        .user-badge.trial { background:linear-gradient(90deg, #10b981, #0da271); }
+        .user-badge.basic { background:linear-gradient(90deg, #3b82f6, #1d4ed8); }
+        .user-badge.plus { background:linear-gradient(90deg, #8b5cf6, #7c3aed); }
+        .user-badge.premium { 
+            background:var(--premium); 
+            box-shadow:0 2px 6px rgba(245,158,11,0.3); 
+        }
+        .user-badge i { font-size:14px; }
+        .action-buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+        .action-btn { 
+            flex:1; min-width: calc(50% - 5px); padding:12px; 
+            border:1px solid var(--border); border-radius:10px; 
+            background:var(--surface); color:var(--text-primary); 
+            cursor:pointer; font-weight:600; font-size:12px; transition:all .3s; 
+            display:flex; align-items:center; justify-content:center; gap:6px; 
+        }
+        .action-btn:hover { 
+            background:linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+            color:white; border-color:var(--primary); transform:translateY(-1px); 
+        }
+        .action-btn.logout { background:var(--danger); color:white; border-color:var(--danger); }
+        .action-btn.logout:hover { background:#dc2626; }
+        .action-btn.upgrade { background:var(--warning); color:white; border-color:var(--warning); }
+        .action-btn.upgrade:hover { background:#d97706; }
+        .action-btn.refresh { background:var(--refresh-bg); color:var(--text-secondary); border-color:var(--border); }
+        .action-btn.refresh:hover { background:var(--refresh-hover); color:var(--primary); border-color:var(--primary); }
+        .action-btn.change-password { background:linear-gradient(90deg, #10b981, #0da271); color:white; border-color:#10b981; }
+        .action-btn.change-password:hover { background:linear-gradient(90deg, #0da271, #0c8a5c); }
+
+        /* Last Refresh Time */
+        .last-refresh {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border);
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+        }
+        .last-refresh i {
+            font-size: 10px;
+        }
+
+        /* Change Password Modal */
+        .change-password-modal { 
+            display:none; position:fixed; top:0; left:0; right:0; bottom:0; 
+            background:rgba(0,0,0,0.5); z-index:1000; 
+            align-items:center; justify-content:center; padding:20px; 
+        }
+        .change-password-modal.active { display:flex; }
+        .change-password-card { 
+            background:var(--surface); border-radius:16px; padding:24px; 
+            width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2); 
+            animation:modalAppear 0.3s ease-out; 
+        }
+        @keyframes modalAppear { 
+            from { opacity:0; transform:scale(0.9); } 
+            to { opacity:1; transform:scale(1); } 
+        }
+        .change-password-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+        .change-password-title { font-size:18px; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:8px; }
+        .close-modal { 
+            width:32px; height:32px; border-radius:8px; background:var(--surface); 
+            border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; 
+            display:flex; align-items:center; justify-content:center; transition:all .3s; 
+        }
+        .close-modal:hover { background:var(--danger); color:white; border-color:var(--danger); }
+        .change-password-form .form-group:last-child { margin-bottom:0; }
+        .password-strength { margin-top:6px; font-size:11px; display:flex; align-items:center; gap:4px; }
+        .strength-bar { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+        .strength-fill { height:100%; width:0%; transition:all .3s; }
+        .strength-weak .strength-fill { width:33%; background:var(--danger); }
+        .strength-medium .strength-fill { width:66%; background:var(--warning); }
+        .strength-strong .strength-fill { width:100%; background:var(--success); }
+
+        /* Loading */
+        .loading { display:inline-block; width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-radius:50%; border-top-color:#fff; animation:spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+
+        /* Quick Loading */
+        .quick-loading { display:none; text-align:center; padding:20px; }
+        .quick-loading.active { display:block; }
+        .quick-loading .loading { width:24px; height:24px; margin-bottom:10px; }
+
+        /* Consent Checkbox */
+        .consent-group {
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .consent-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .consent-checkbox input {
+            margin-top: 3px;
+        }
+
+        .consent-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .consent-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .consent-text a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ===== CHẶN LONG PRESS TRÊN NAV ITEMS CHO WKWEBVIEW iOS ===== */
+        /* Ngăn chặn menu context (mở link) khi nhấn giữ */
+        .nav-item, .nav-icon, .nav-label {
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        
+        /* Tắt highlight khi chạm trên iOS */
+        .nav-item {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Vô hiệu hóa menu context cho tất cả nav items */
+        .nav-items a {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Chặn menu context trên toàn bộ bottom nav */
+        .bottom-nav {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Vô hiệu hóa hành vi kéo và thả trên nav */
+        .nav-item {
+            touch-action: manipulation;
+        }
+        
+        /* Đảm bảo không có text selection trên nav */
+        .nav-item * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* CSS để chặn context menu trên iOS WKWebView */
+        .no-context-menu {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Prevent zoom on input focus */
+        input, select, textarea {
+            font-size: 16px !important;
+            touch-action: manipulation;
+        }
+        
+        /* Disable text size adjustment */
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
+        /* Responsive */
+        @media (max-width:480px) {
+            .account-container { padding:16px 0; margin:10px auto; }
+            .auth-card { padding:16px; }
+            .action-buttons { flex-direction:column; }
+            .action-btn { min-width:100%; }
+            .welcome-title { font-size:18px; }
+            .welcome-subtitle { font-size:13px; }
+            .change-password-card { padding:20px; margin:0 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - ĐỒNG BỘ 100% VỚI INDEX.HTML -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+                    XSpace Store
+                </a>
+                <!-- Search bar ẩn giống index.html -->
+                <div class="search-bar" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm ứng dụng...">
+                </div>
+                <div class="user-actions">
+                    <!-- Nút chuyển đổi chế độ sáng/tối -->
+                    <button class="icon-btn theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun theme-icon sun-icon"></i>
+                        <i class="fas fa-moon theme-icon moon-icon"></i>
+                    </button>
+                    <!-- Nút Telegram -->
+                    <a href="https://t.me/xspace_ipa" target="_blank" class="icon-btn telegram-btn" id="telegramBtn">
+                        <i class="fas fa-bell"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="account-container">
+            <!-- Quick Loading -->
+            <div class="quick-loading" id="quickLoading">
+                <div class="loading"></div>
+                <p>Đang tải thông tin...</p>
+            </div>
+
+            <!-- Messages -->
+            <div id="successMessage" class="message message-success">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText">Thành công!</span>
+            </div>
+            
+            <div id="errorMessage" class="message message-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">Đã xảy ra lỗi!</span>
+            </div>
+
+            <!-- Welcome Section (shown when not logged in) -->
+            <div class="welcome-section" id="welcomeSection">
+                <h2 class="welcome-title">Chào mừng bạn đến với XSpace Store</h2>
+                <p class="welcome-subtitle">Hãy đăng nhập để trải nghiệm kho ứng dụng một cách trọn vẹn nhất!</p>
+            </div>
+
+            <!-- Login/Register Forms -->
+            <div id="authForms">
+                <div class="auth-card">
+                    <!-- Tabs -->
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-form="loginForm">Đăng nhập</button>
+                        <button class="auth-tab" data-form="registerForm">Đăng ký</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form class="auth-form active" id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="loginUsername">
+                                <i class="fas fa-user"></i>
+                                Tên đăng nhập
+                            </label>
+                            <input type="text" id="loginUsername" class="form-input" placeholder="Nhập tên đăng nhập" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="loginPassword">
+                                <i class="fas fa-lock"></i>
+                                Mật khẩu
+                            </label>
+                            <input type="password" id="loginPassword" class="form-input" placeholder="Nhập mật khẩu" required>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="loginBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng nhập
+                        </button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form class="auth-form" id="registerForm">
+                        <div class="form-group">
+                            <label class="form-label" for="registerUsername">
+                                <i class="fas fa-user"></i>
+                                Tên đăng nhập
+                            </label>
+                            <input type="text" id="registerUsername" class="form-input" placeholder="Chọn tên đăng nhập" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="registerEmail">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input type="email" id="registerEmail" class="form-input" placeholder="Nhập email của bạn" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="registerPassword">
+                                <i class="fas fa-lock"></i>
+                                Mật khẩu
+                            </label>
+                            <input type="password" id="registerPassword" class="form-input" placeholder="Tạo mật khẩu" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="registerConfirmPassword">
+                                <i class="fas fa-lock"></i>
+                                Nhập lại mật khẩu
+                            </label>
+                            <input type="password" id="registerConfirmPassword" class="form-input" placeholder="Xác nhận mật khẩu" required>
+                        </div>
+
+                        <!-- Consent Checkbox -->
+                        <div class="consent-group" id="consentGroup">
+                            <label class="consent-checkbox">
+                                <input type="checkbox" id="privacyConsent" required>
+                                <span class="consent-text">
+                                    Tôi đồng ý với <a href="privacy-policy.html" target="_blank">Chính Sách Bảo Mật</a> 
+                                    và <a href="terms-of-service.html" target="_blank">Điều Khoản Dịch Vụ</a> của XSpace Store
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="registerBtn">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng ký tài khoản
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- User Info (shown after login) -->
+            <div class="user-info" id="userInfo">
+                <div class="auth-card">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <h2 class="user-name" id="userName">Người dùng</h2>
+                    
+                    <div class="user-details">
+                        <div class="user-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email: <strong id="userEmail">user@example.com</strong></span>
+                        </div>
+                        
+                        <div class="user-detail">
+                            <i class="fas fa-calendar"></i>
+                            <span>Ngày tham gia: <strong id="userCreatedDate">01/01/2024</strong></span>
+                        </div>
+                        
+                        <div class="user-detail" id="vipExpiryInfo" style="display: none;">
+                            <i class="fas fa-crown"></i>
+                            <span>VIP đến: <strong id="vipExpiryDate">01/01/2024</strong></span>
+                        </div>
+                        
+                        <div class="user-detail" id="vipStatusInfo" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Trạng thái: <strong id="vipStatusText">Đang hoạt động</strong></span>
+                        </div>
+                        
+                        <!-- Last Refresh Time -->
+                        <div class="last-refresh">
+                            <i class="fas fa-clock"></i>
+                            <span>Cập nhật lần cuối: <strong id="lastRefreshTime">--:--:--</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="user-badge free" id="userBadge">
+                        <i class="fas fa-user"></i>
+                        <span>Tài khoản Miễn phí</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn change-password" id="changePasswordBtn">
+                            <i class="fas fa-key"></i>
+                            Đổi mật khẩu
+                        </button>
+                        <button class="action-btn upgrade" id="upgradeBtn">
+                            <i class="fas fa-crown"></i>
+                            Nâng cấp VIP
+                        </button>
+                        <button class="action-btn refresh" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Làm mới
+                        </button>
+                        <button class="action-btn logout" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Đăng xuất
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="copyright">
+                    Copyright ©2024 Vietnam Signing Authority . All rights reserved
+                </p>
+                
+                <div class="footer-links">
+                    <a href="privacy-policy.html" target="_blank" class="footer-link">
+                        <i class="fas fa-shield-alt"></i>
+                        Chính Sách Bảo Mật
+                    </a>
+                    
+                    <span class="footer-divider">•</span>
+                    
+                    <a href="terms-of-service.html" target="_blank" class="footer-link">
+                        <i class="fas fa-file-contract"></i>
+                        Điều Khoản Dịch Vụ
+                    </a>
+                    
+                    <span class="footer-divider">•</span>
+                    
+                    <a href="mailto:support@modos.site" class="footer-link">
+                        <i class="fas fa-headset"></i>
+                        Liên Hệ Hỗ Trợ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Change Password Modal -->
+    <div class="change-password-modal" id="changePasswordModal">
+        <div class="change-password-card">
+            <div class="change-password-header">
+                <h3 class="change-password-title">
+                    <i class="fas fa-key"></i>
+                    Đổi mật khẩu
+                </h3>
+                <button class="close-modal" id="closeChangePasswordModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label class="form-label" for="oldPassword">
+                        <i class="fas fa-lock"></i>
+                        Mật khẩu hiện tại
+                    </label>
+                    <input type="password" id="oldPassword" class="form-input" placeholder="Nhập mật khẩu hiện tại" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="newPassword">
+                        <i class="fas fa-lock"></i>
+                        Mật khẩu mới
+                    </label>
+                    <input type="password" id="newPassword" class="form-input" placeholder="Nhập mật khẩu mới" required>
+                    <div class="password-strength" id="passwordStrength">
+                        <span>Độ mạnh:</span>
+                        <div class="strength-bar">
+                            <div class="strength-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="confirmNewPassword">
+                        <i class="fas fa-lock"></i>
+                        Nhập lại mật khẩu mới
+                    </label>
+                    <input type="password" id="confirmNewPassword" class="form-input" placeholder="Xác nhận mật khẩu mới" required>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitChangePasswordBtn">
+                    <i class="fas fa-check"></i>
+                    Cập nhật mật khẩu
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation - ĐỒNG BỘ 100% VỚI INDEX.HTML -->
+    <nav class="bottom-nav no-context-menu">
+        <div class="container">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" data-view="home">
+                    <div class="nav-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="nav-label">Trang chủ</div>
+                </a>
+                <a href="index.html#gamesSection" class="nav-item" data-view="games">
+                    <div class="nav-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="nav-label">Trò chơi</div>
+                </a>
+                <a href="index.html" class="nav-item" data-view="search" id="searchNavItem">
+                    <div class="nav-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="nav-label">Tìm kiếm</div>
+                </a>
+                <a href="info.html" class="nav-item">
+                    <div class="nav-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="nav-label">Thông tin</div>
+                </a>
+                <a href="account.html" class="nav-item active">
+                    <div class="nav-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="nav-label">Tài khoản</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // CONFIG được lấy từ config.js đã load ở trên
+        
+        // DOM Elements
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const authFormsContainer = document.getElementById('authForms');
+        const userInfo = document.getElementById('userInfo');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const upgradeBtn = document.getElementById('upgradeBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const changePasswordModal = document.getElementById('changePasswordModal');
+        const closeChangePasswordModal = document.getElementById('closeChangePasswordModal');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const submitChangePasswordBtn = document.getElementById('submitChangePasswordBtn');
+        const newPasswordInput = document.getElementById('newPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const successText = document.getElementById('successText');
+        const errorText = document.getElementById('errorText');
+        const quickLoading = document.getElementById('quickLoading');
+        const lastRefreshTimeElement = document.getElementById('lastRefreshTime');
+        const vipStatusInfo = document.getElementById('vipStatusInfo');
+        const vipStatusText = document.getElementById('vipStatusText');
+        const vipExpiryInfo = document.getElementById('vipExpiryInfo');
+        const privacyConsent = document.getElementById('privacyConsent');
+        const consentGroup = document.getElementById('consentGroup');
+        
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // AUTO REFRESH SYSTEM
+        let autoRefreshInterval = null;
+        let lastRefreshTime = null;
+
+        // Theme Manager Class
+        class ThemeManager {
+            constructor() {
+                this.themeToggle = document.getElementById('themeToggle');
+                this.htmlElement = document.documentElement;
+                this.body = document.body;
+                this.init();
+            }
+            
+            init() {
+                // Kiểm tra theme đã lưu
+                const savedTheme = localStorage.getItem('theme');
+                
+                // Áp dụng theme đã lưu hoặc mặc định (light)
+                if (savedTheme === 'dark') {
+                    this.setTheme('dark');
+                } else {
+                    // Mặc định là light mode
+                    this.setTheme('light');
+                    localStorage.setItem('theme', 'light');
+                }
+                
+                // Thêm sự kiện click cho nút chuyển đổi
+                this.themeToggle.addEventListener('click', (e) => this.toggleTheme(e));
+            }
+            
+            setTheme(theme) {
+                const isDark = theme === 'dark';
+                this.htmlElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                // Cập nhật icon
+                this.updateThemeIcon(isDark);
+                
+                // Cập nhật meta theme-color cho viền trên cùng
+                this.updateMetaThemeColor(isDark);
+            }
+            
+            toggleTheme(e) {
+                const currentTheme = this.htmlElement.getAttribute('data-theme');
+                const isDark = currentTheme === 'dark';
+                this.setTheme(isDark ? 'light' : 'dark');
+                
+                // Thêm hiệu ứng ripple
+                this.createRippleEffect(e);
+            }
+            
+            updateThemeIcon(isDark) {
+                const sunIcon = this.themeToggle.querySelector('.sun-icon');
+                const moonIcon = this.themeToggle.querySelector('.moon-icon');
+                
+                if (isDark) {
+                    sunIcon.style.opacity = '0';
+                    sunIcon.style.transform = 'rotate(90deg) scale(0.5)';
+                    moonIcon.style.opacity = '1';
+                    moonIcon.style.transform = 'rotate(0deg) scale(1)';
+                } else {
+                    sunIcon.style.opacity = '1';
+                    sunIcon.style.transform = 'rotate(0deg) scale(1)';
+                    moonIcon.style.opacity = '0';
+                    moonIcon.style.transform = 'rotate(-90deg) scale(0.5)';
+                }
+            }
+            
+            updateMetaThemeColor(isDark) {
+                // Cập nhật màu theme cho thanh địa chỉ và UI trình duyệt
+                const themeColor = isDark ? '#0f172a' : '#ffffff';
+                
+                let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (!metaThemeColor) {
+                    metaThemeColor = document.createElement('meta');
+                    metaThemeColor.name = 'theme-color';
+                    document.head.appendChild(metaThemeColor);
+                }
+                metaThemeColor.content = themeColor;
+                
+                // Cập nhật màu cho Safari
+                let metaAppleThemeColor = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+                if (!metaAppleThemeColor) {
+                    metaAppleThemeColor = document.createElement('meta');
+                    metaAppleThemeColor.name = 'apple-mobile-web-app-status-bar-style';
+                    document.head.appendChild(metaAppleThemeColor);
+                }
+                metaAppleThemeColor.content = isDark ? 'black' : 'default';
+            }
+            
+            createRippleEffect(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = button.getElementsByClassName('ripple')[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                button.appendChild(circle);
+                
+                // Xóa ripple sau khi animation kết thúc
+                setTimeout(() => {
+                    if (circle.parentNode === button) {
+                        button.removeChild(circle);
+                    }
+                }, 600);
+            }
+        }
+        
+        // ===== CHẶN LONG PRESS (CONTEXT MENU) TRÊN NAV ITEMS =====
+        class LongPressBlocker {
+            constructor() {
+                this.navItems = document.querySelectorAll('.nav-item');
+                this.init();
+            }
+            
+            init() {
+                console.log('🛡️ Initializing long press blocker for nav items');
+                
+                // Áp dụng cho tất cả nav items
+                this.navItems.forEach(item => {
+                    // Ngăn context menu
+                    item.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        return false;
+                    });
+                    
+                    // Ngăn touch hold trên iOS
+                    item.addEventListener('touchstart', (e) => {
+                        // Không làm gì cả, chỉ để ngăn hành vi mặc định
+                    }, { passive: true });
+                    
+                    item.addEventListener('touchend', (e) => {
+                        // Ngăn mở context menu
+                        if (e.timeStamp - e.currentTarget.touchStartTime > 500) {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    item.addEventListener('touchmove', (e) => {
+                        // Ngăn khi người dùng di chuyển ngón tay
+                        e.currentTarget.touchMoved = true;
+                    });
+                    
+                    // Thêm touch start time tracking
+                    item.addEventListener('touchstart', (e) => {
+                        e.currentTarget.touchStartTime = e.timeStamp;
+                        e.currentTarget.touchMoved = false;
+                    });
+                    
+                    // JavaScript fallback để chặn text selection
+                    item.addEventListener('selectstart', (e) => {
+                        e.preventDefault();
+                        return false;
+                    });
+                });
+                
+                // Thêm global context menu blocker
+                document.addEventListener('contextmenu', (e) => {
+                    // Chỉ chặn trên nav items
+                    if (e.target.closest('.nav-item') || e.target.closest('.bottom-nav')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, false);
+                
+                // Ngăn text selection trên toàn bộ bottom nav
+                const bottomNav = document.querySelector('.bottom-nav');
+                if (bottomNav) {
+                    bottomNav.addEventListener('selectstart', (e) => {
+                        e.preventDefault();
+                        return false;
+                    });
+                    
+                    bottomNav.style.userSelect = 'none';
+                    bottomNav.style.webkitUserSelect = 'none';
+                }
+            }
+        }
+        
+        // ===== WKWEBVIEW iOS SPECIFIC FIXES =====
+        class WKWebViewFixer {
+            constructor() {
+                this.isWKWebView = this.detectWKWebView();
+                this.init();
+            }
+            
+            detectWKWebView() {
+                const ua = navigator.userAgent;
+                const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+                const isWebKit = /WebKit/.test(ua);
+                const isChrome = /CriOS/.test(ua);
+                
+                // WKWebView iOS detection
+                return isIOS && isWebKit && !isChrome && window.webkit && window.webkit.messageHandlers;
+            }
+            
+            init() {
+                if (!this.isWKWebView) return;
+                
+                console.log('📱 WKWebView iOS detected, applying fixes');
+                
+                // Áp dụng CSS fixes
+                this.applyCSSFixes();
+                
+                // Áp dụng JavaScript fixes
+                this.applyJSFixes();
+                
+                // Ngăn bounce/scrolling issues
+                this.preventBounce();
+            }
+            
+            applyCSSFixes() {
+                // Thêm CSS fixes cho WKWebView
+                const style = document.createElement('style');
+                style.textContent = `
+                    /* WKWebView specific fixes */
+                    .nav-item {
+                        -webkit-touch-callout: none !important;
+                        -webkit-user-select: none !important;
+                        user-select: none !important;
+                        cursor: pointer !important;
+                    }
+                    
+                    /* Tắt highlight trên iOS */
+                    .nav-item:active {
+                        background-color: transparent !important;
+                    }
+                    
+                    /* Ngăn text selection hoàn toàn */
+                    .bottom-nav, .nav-items, .nav-item, .nav-icon, .nav-label {
+                        -webkit-user-select: none !important;
+                        -moz-user-select: none !important;
+                        -ms-user-select: none !important;
+                        user-select: none !important;
+                    }
+                    
+                    /* Tắt tap highlight */
+                    * {
+                        -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+                        -webkit-tap-highlight-color: transparent !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            applyJSFixes() {
+                // Ngăn mọi hành vi không mong muốn trên nav items
+                document.addEventListener('touchstart', (e) => {
+                    const navItem = e.target.closest('.nav-item');
+                    if (navItem) {
+                        // Ngăn mọi hành vi mặc định
+                        e.preventDefault();
+                        
+                        // Thêm class active tạm thời
+                        navItem.classList.add('active-touch');
+                        
+                        // Xóa class sau 150ms
+                        setTimeout(() => {
+                            navItem.classList.remove('active-touch');
+                        }, 150);
+                    }
+                }, { passive: false });
+                
+                // Ngăn context menu hoàn toàn
+                document.addEventListener('contextmenu', (e) => {
+                    if (e.target.closest('.nav-item') || e.target.closest('.bottom-nav')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                });
+                
+                // Ngăn text selection
+                document.addEventListener('selectstart', (e) => {
+                    if (e.target.closest('.nav-item') || e.target.closest('.bottom-nav')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+            
+            preventBounce() {
+                // Ngăn bounce effect trên WKWebView
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
+            }
+        }
+
+        // Format date function
+        function formatDate(dateString) {
+            if (!dateString) return 'Không xác định';
+            
+            if (dateString.includes('T')) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('vi-VN');
+            }
+            
+            if (dateString.includes('/')) {
+                return dateString;
+            }
+            
+            return dateString;
+        }
+
+        // Parse date function
+        function parseDate(dateString) {
+            if (!dateString || dateString === '') return null;
+            
+            try {
+                // Thử parse ISO format
+                if (dateString.includes('T')) {
+                    return new Date(dateString);
+                }
+                
+                // Thử parse dd/mm/yyyy format
+                if (dateString.includes('/')) {
+                    const parts = dateString.split('/');
+                    if (parts.length === 3) {
+                        const day = parseInt(parts[0]);
+                        const month = parseInt(parts[1]) - 1;
+                        const year = parseInt(parts[2]);
+                        const fullYear = year < 100 ? year + 2000 : year;
+                        return new Date(fullYear, month, day);
+                    }
+                }
+                
+                return new Date(dateString);
+            } catch (error) {
+                console.error('Error parsing date:', dateString, error);
+                return null;
+            }
+        }
+
+        // AUTO REFRESH FUNCTIONS
+        function startAutoRefresh(userEmail) {
+            if (!userEmail) return;
+            
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            
+            performAutoRefresh(userEmail);
+            
+            autoRefreshInterval = setInterval(() => {
+                performAutoRefresh(userEmail);
+            }, 5000);
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+
+        async function performAutoRefresh(userEmail) {
+            try {
+                const response = await fetch(`${CONFIG.GOOGLE_SCRIPT_URL}?action=autoRefreshUser&email=${encodeURIComponent(userEmail)}`);
+                const result = await response.json();
+                
+                if (result.success && result.autoRefreshed) {
+                    const userData = result.data;
+                    updateUserUI(userData);
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+                    
+                    lastRefreshTime = new Date().toLocaleTimeString('vi-VN');
+                    lastRefreshTimeElement.textContent = lastRefreshTime;
+                }
+            } catch (error) {
+                console.error('Lỗi khi auto refresh:', error);
+            }
+        }
+
+        // Hàm cập nhật UI
+        function updateUserUI(userData) {
+            if (!userData) return;
+            
+            console.log('Updating UI with data:', userData);
+            
+            // Cập nhật thông tin cơ bản
+            document.getElementById('userName').textContent = userData.username || 'Người dùng';
+            document.getElementById('userEmail').textContent = userData.email || 'Chưa có email';
+            document.getElementById('userCreatedDate').textContent = formatDate(userData.createdDate) || 'Không xác định';
+            
+            // Set avatar với chữ cái đầu của username
+            const firstLetter = (userData.username || 'U').charAt(0).toUpperCase();
+            document.getElementById('userAvatar').innerHTML = firstLetter;
+            
+            // Update badge và VIP info
+            const userBadge = document.getElementById('userBadge');
+            const vipExpiryDate = document.getElementById('vipExpiryDate');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+            
+            const packageInfo = {
+                'free': { name: 'Miễn phí', class: 'free', icon: 'fas fa-user' },
+                'trial': { name: 'Trial', class: 'trial', icon: 'fas fa-star' },
+                'basic': { name: 'Basic', class: 'basic', icon: 'fas fa-crown' },
+                'plus': { name: 'Plus', class: 'plus', icon: 'fas fa-crown' },
+                'premium': { name: 'Premium', class: 'premium', icon: 'fas fa-crown' }
+            };
+            
+            const packageType = userData.packageType || 'free';
+            const currentPackage = packageInfo[packageType] || packageInfo.free;
+            
+            // Cập nhật gói tài khoản
+            userBadge.innerHTML = `<i class="${currentPackage.icon}"></i><span>Tài khoản ${currentPackage.name}</span>`;
+            userBadge.className = `user-badge ${currentPackage.class}`;
+            
+            // Cập nhật thông tin VIP expiry
+            if (userData.vipExpiry && userData.vipExpiry !== '') {
+                vipExpiryDate.textContent = formatDate(userData.vipExpiry);
+                vipExpiryInfo.style.display = 'flex';
+            } else {
+                vipExpiryInfo.style.display = 'none';
+            }
+            
+            // FIX LOGIC HIỂN THỊ TRẠNG THÁI VIP
+            if (packageType !== 'free') {
+                vipStatusInfo.style.display = 'flex';
+                
+                // Sử dụng trạng thái từ server nếu có
+                const vipStatus = userData.vipStatus || 'free';
+                
+                if (vipStatus === 'active') {
+                    vipStatusText.textContent = 'Đang hoạt động';
+                    vipStatusText.style.color = 'var(--success)';
+                    upgradeBtn.style.display = 'none';
+                } else if (vipStatus === 'expired') {
+                    vipStatusText.textContent = 'Đã hết hạn';
+                    vipStatusText.style.color = 'var(--danger)';
+                    upgradeBtn.style.display = 'flex';
+                } else {
+                    // Kiểm tra ngày hết hạn để xác định
+                    if (userData.vipExpiry && userData.vipExpiry !== '') {
+                        const expiryDate = parseDate(userData.vipExpiry);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (expiryDate && !isNaN(expiryDate.getTime())) {
+                            expiryDate.setHours(0, 0, 0, 0);
+                            
+                            if (expiryDate >= today) {
+                                vipStatusText.textContent = 'Đang hoạt động';
+                                vipStatusText.style.color = 'var(--success)';
+                                upgradeBtn.style.display = 'none';
+                            } else {
+                                vipStatusText.textContent = 'Đã hết hạn';
+                                vipStatusText.style.color = 'var(--danger)';
+                                upgradeBtn.style.display = 'flex';
+                            }
+                        } else {
+                            vipStatusText.textContent = 'Không xác định';
+                            vipStatusText.style.color = 'var(--warning)';
+                            upgradeBtn.style.display = 'flex';
+                        }
+                    } else {
+                        vipStatusText.textContent = 'Không xác định';
+                        vipStatusText.style.color = 'var(--warning)';
+                        upgradeBtn.style.display = 'flex';
+                    }
+                }
+            } else {
+                vipStatusInfo.style.display = 'none';
+                upgradeBtn.style.display = 'flex';
+            }
+            
+            // Cập nhật thời gian refresh
+            lastRefreshTimeElement.textContent = lastRefreshTime || '--:--:--';
+        }
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Loaded - Checking for CONFIG');
+            
+            if (typeof CONFIG === 'undefined' || !CONFIG.GOOGLE_SCRIPT_URL) {
+                console.error('Lỗi: Không tìm thấy CONFIG hoặc GOOGLE_SCRIPT_URL');
+                showError('Không thể kết nối đến server. Vui lòng thử lại sau.');
+                return;
+            }
+            
+            console.log('CONFIG found:', CONFIG.GOOGLE_SCRIPT_URL);
+            
+            // Khởi tạo theme manager và long press blocker
+            const themeManager = new ThemeManager();
+            const longPressBlocker = new LongPressBlocker();
+            const wkWebViewFixer = new WKWebViewFixer();
+            
+            // Kiểm tra và áp dụng theme ngay lập tức để tránh flash
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
+            // Xử lý nút Telegram
+            document.getElementById('telegramBtn').addEventListener('click', function(e) {
+                window.open(this.href, '_blank');
+            });
+            
+            // Kiểm tra người dùng đăng nhập
+            const currentUser = getCurrentUser();
+            console.log('Current user from localStorage:', currentUser);
+            
+            if (currentUser) {
+                // Hiển thị thông tin người dùng ngay lập tức
+                loadUserInfo(currentUser, true);
+                
+                // Sau đó tải thông tin mới nhất từ server
+                refreshUserInfo(currentUser);
+            } else {
+                // Hiển thị form đăng nhập/đăng ký và welcome section
+                authFormsContainer.style.display = 'block';
+                welcomeSection.style.display = 'block';
+                userInfo.style.display = 'none';
+                quickLoading.style.display = 'none';
+                console.log('No user logged in, showing auth forms');
+            }
+            
+            // Dừng auto refresh khi rời trang
+            window.addEventListener('beforeunload', function() {
+                stopAutoRefresh();
+            });
+        });
+
+        // Tab switching với hiển thị consent checkbox
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const formId = tab.getAttribute('data-form');
+                
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                authForms.forEach(form => {
+                    form.classList.remove('active');
+                    if (form.id === formId) {
+                        form.classList.add('active');
+                    }
+                });
+                
+                // Hiển thị consent chỉ ở form đăng ký
+                if (formId === 'registerForm') {
+                    consentGroup.style.display = 'block';
+                } else {
+                    consentGroup.style.display = 'none';
+                }
+            });
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Login form submitted');
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            if (!username || !password) {
+                showError('Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+            
+            loginBtn.innerHTML = '<div class="loading"></div> Đang đăng nhập...';
+            loginBtn.disabled = true;
+            
+            try {
+                console.log('Sending login request to:', CONFIG.GOOGLE_SCRIPT_URL);
+                
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({
+                        action: 'loginUser',
+                        data: {
+                            username: username,
+                            password: password
+                        }
+                    })
+                });
+                
+                console.log('Response received, status:', response.status);
+                const result = await response.json();
+                console.log('Login result:', result);
+                
+                if (result.success) {
+                    // Save user info to localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(result.data));
+                    console.log('User saved to localStorage:', result.data);
+                    
+                    // Hiển thị thông tin user và ẩn form đăng nhập
+                    loadUserInfo(result.data, false);
+                    
+                    if (result.data.autoDowngraded) {
+                        showSuccess('Đăng nhập thành công! Tài khoản VIP của bạn đã hết hạn và được chuyển về miễn phí.');
+                    } else {
+                        showSuccess('Đăng nhập thành công!');
+                    }
+                    
+                    // Bật auto refresh
+                    startAutoRefresh(result.data.email);
+                } else {
+                    throw new Error(result.message || 'Đăng nhập thất bại');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError(error.message || 'Đăng nhập thất bại. Vui lòng kiểm tra kết nối mạng.');
+            } finally {
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Đăng nhập';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Register form submission với consent check
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+            const confirmPassword = document.getElementById('registerConfirmPassword').value.trim();
+            
+            if (!username || !email || !password || !confirmPassword) {
+                showError('Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('Mật khẩu xác nhận không khớp');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showError('Mật khẩu phải có ít nhất 6 ký tự');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showError('Email không hợp lệ');
+                return;
+            }
+            
+            // QUAN TRỌNG: Kiểm tra consent
+            if (!privacyConsent.checked) {
+                showError('Vui lòng đồng ý với Chính Sách Bảo Mật và Điều Khoản Dịch Vụ');
+                return;
+            }
+            
+            registerBtn.innerHTML = '<div class="loading"></div> Đang đăng ký...';
+            registerBtn.disabled = true;
+            
+            try {
+                // Thêm xác thực human interaction để tránh bị flag
+                const humanToken = await generateHumanToken();
+                
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({
+                        action: 'registerUser',
+                        data: {
+                            username: username,
+                            password: password,
+                            email: email,
+                            humanToken: humanToken,
+                            consent: true,
+                            timestamp: new Date().toISOString()
+                        }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess('Đăng ký thành công! Vui lòng đăng nhập.');
+                    authTabs[0].click();
+                    registerForm.reset();
+                    privacyConsent.checked = false;
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                showError(error.message || 'Đăng ký thất bại');
+            } finally {
+                registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Đăng ký tài khoản';
+                registerBtn.disabled = false;
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', function() {
+            stopAutoRefresh();
+            localStorage.removeItem('currentUser');
+            authFormsContainer.style.display = 'block';
+            welcomeSection.style.display = 'block';
+            userInfo.classList.remove('active');
+            userInfo.style.display = 'none';
+            showSuccess('Đã đăng xuất thành công');
+        });
+
+        // Upgrade button
+        upgradeBtn.addEventListener('click', function() {
+            window.location.href = 'payment.html';
+        });
+
+        // Refresh user info
+        refreshBtn.addEventListener('click', async function() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                refreshBtn.innerHTML = '<div class="loading"></div> Đang làm mới...';
+                try {
+                    await refreshUserInfo(currentUser);
+                    showSuccess('Đã cập nhật thông tin tài khoản!');
+                } catch (error) {
+                    showError(error.message || 'Lỗi khi làm mới thông tin');
+                } finally {
+                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Làm mới';
+                }
+            }
+        });
+
+        // Change password modal
+        changePasswordBtn.addEventListener('click', function() {
+            changePasswordModal.classList.add('active');
+            changePasswordForm.reset();
+            passwordStrength.className = 'password-strength';
+        });
+
+        closeChangePasswordModal.addEventListener('click', function() {
+            changePasswordModal.classList.remove('active');
+        });
+
+        changePasswordModal.addEventListener('click', function(e) {
+            if (e.target === changePasswordModal) {
+                changePasswordModal.classList.remove('active');
+            }
+        });
+
+        // Password strength checker
+        newPasswordInput.addEventListener('input', function() {
+            const password = newPasswordInput.value;
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            passwordStrength.className = 'password-strength';
+            if (password.length > 0) {
+                if (strength <= 2) {
+                    passwordStrength.classList.add('strength-weak');
+                } else if (strength <= 4) {
+                    passwordStrength.classList.add('strength-medium');
+                } else {
+                    passwordStrength.classList.add('strength-strong');
+                }
+            }
+        });
+
+        // Change password form submission
+        changePasswordForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const oldPassword = document.getElementById('oldPassword').value.trim();
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value.trim();
+            
+            if (!oldPassword || !newPassword || !confirmNewPassword) {
+                showError('Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+            
+            if (newPassword !== confirmNewPassword) {
+                showError('Mật khẩu mới và xác nhận không khớp');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showError('Mật khẩu mới phải có ít nhất 6 ký tự');
+                return;
+            }
+            
+            if (newPassword === oldPassword) {
+                showError('Mật khẩu mới phải khác mật khẩu cũ');
+                return;
+            }
+            
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                showError('Bạn cần đăng nhập để đổi mật khẩu');
+                return;
+            }
+            
+            submitChangePasswordBtn.innerHTML = '<div class="loading"></div> Đang cập nhật...';
+            submitChangePasswordBtn.disabled = true;
+            
+            try {
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({
+                        action: 'changePassword',
+                        data: {
+                            email: currentUser.email,
+                            oldPassword: oldPassword,
+                            newPassword: newPassword,
+                            timestamp: new Date().toISOString()
+                        }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess('Đổi mật khẩu thành công! Vui lòng đăng nhập lại với mật khẩu mới.');
+                    
+                    setTimeout(() => {
+                        changePasswordModal.classList.remove('active');
+                        changePasswordForm.reset();
+                        passwordStrength.className = 'password-strength';
+                        
+                        setTimeout(() => {
+                            logoutBtn.click();
+                        }, 1000);
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                showError(error.message || 'Đổi mật khẩu thất bại');
+            } finally {
+                submitChangePasswordBtn.innerHTML = '<i class="fas fa-check"></i> Cập nhật mật khẩu';
+                submitChangePasswordBtn.disabled = false;
+            }
+        });
+
+        // Utility functions
+        async function loadUserInfo(userData, isQuickLoad) {
+            console.log('loadUserInfo called with:', userData);
+            
+            // Hiển thị thông tin người dùng ngay lập tức
+            document.getElementById('userName').textContent = userData.username || 'Người dùng';
+            document.getElementById('userEmail').textContent = userData.email || 'Chưa có email';
+            document.getElementById('userCreatedDate').textContent = formatDate(userData.createdDate) || 'Không xác định';
+            
+            // Set avatar với chữ cái đầu của username
+            const firstLetter = (userData.username || 'U').charAt(0).toUpperCase();
+            document.getElementById('userAvatar').innerHTML = firstLetter;
+            
+            // Update badge và VIP info
+            const userBadge = document.getElementById('userBadge');
+            const vipExpiryDate = document.getElementById('vipExpiryDate');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+            
+            const packageInfo = {
+                'free': { name: 'Miễn phí', class: 'free', icon: 'fas fa-user' },
+                'trial': { name: 'Trial', class: 'trial', icon: 'fas fa-star' },
+                'basic': { name: 'Basic', class: 'basic', icon: 'fas fa-crown' },
+                'plus': { name: 'Plus', class: 'plus', icon: 'fas fa-crown' },
+                'premium': { name: 'Premium', class: 'premium', icon: 'fas fa-crown' }
+            };
+            
+            const packageType = userData.packageType || 'free';
+            const currentPackage = packageInfo[packageType] || packageInfo.free;
+            
+            // Cập nhật gói tài khoản
+            userBadge.innerHTML = `<i class="${currentPackage.icon}"></i><span>Tài khoản ${currentPackage.name}</span>`;
+            userBadge.className = `user-badge ${currentPackage.class}`;
+            
+            // Cập nhật thông tin VIP expiry
+            if (userData.vipExpiry && userData.vipExpiry !== '') {
+                vipExpiryDate.textContent = formatDate(userData.vipExpiry);
+                vipExpiryInfo.style.display = 'flex';
+            } else {
+                vipExpiryInfo.style.display = 'none';
+            }
+            
+            // FIX LOGIC HIỂN THỊ TRẠNG THÁI VIP
+            if (packageType !== 'free') {
+                vipStatusInfo.style.display = 'flex';
+                
+                // Sử dụng trạng thái từ server nếu có
+                const vipStatus = userData.vipStatus || 'free';
+                
+                if (vipStatus === 'active') {
+                    vipStatusText.textContent = 'Đang hoạt động';
+                    vipStatusText.style.color = 'var(--success)';
+                    upgradeBtn.style.display = 'none';
+                } else if (vipStatus === 'expired') {
+                    vipStatusText.textContent = 'Đã hết hạn';
+                    vipStatusText.style.color = 'var(--danger)';
+                    upgradeBtn.style.display = 'flex';
+                } else {
+                    // Kiểm tra ngày hết hạn để xác định
+                    if (userData.vipExpiry && userData.vipExpiry !== '') {
+                        const expiryDate = parseDate(userData.vipExpiry);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (expiryDate && !isNaN(expiryDate.getTime())) {
+                            expiryDate.setHours(0, 0, 0, 0);
+                            
+                            if (expiryDate >= today) {
+                                vipStatusText.textContent = 'Đang hoạt động';
+                                vipStatusText.style.color = 'var(--success)';
+                                upgradeBtn.style.display = 'none';
+                            } else {
+                                vipStatusText.textContent = 'Đã hết hạn';
+                                vipStatusText.style.color = 'var(--danger)';
+                                upgradeBtn.style.display = 'flex';
+                            }
+                        } else {
+                            vipStatusText.textContent = 'Không xác định';
+                            vipStatusText.style.color = 'var(--warning)';
+                            upgradeBtn.style.display = 'flex';
+                        }
+                    } else {
+                        vipStatusText.textContent = 'Không xác định';
+                        vipStatusText.style.color = 'var(--warning)';
+                        upgradeBtn.style.display = 'flex';
+                    }
+                }
+            } else {
+                vipStatusInfo.style.display = 'none';
+                upgradeBtn.style.display = 'flex';
+            }
+            
+            // ẨN form đăng nhập và HIỆN thông tin user
+            authFormsContainer.style.display = 'none';
+            welcomeSection.style.display = 'none';
+            userInfo.style.display = 'block';
+            userInfo.classList.add('active');
+            quickLoading.style.display = 'none';
+            
+            console.log('User info displayed, auth forms hidden');
+            
+            // Cập nhật thời gian refresh
+            lastRefreshTime = new Date().toLocaleTimeString('vi-VN');
+            lastRefreshTimeElement.textContent = lastRefreshTime;
+            
+            // BẬT AUTO REFRESH
+            if (userData.email) {
+                startAutoRefresh(userData.email);
+            }
+        }
+
+        async function refreshUserInfo(userData) {
+            try {
+                const response = await fetch(`${CONFIG.GOOGLE_SCRIPT_URL}?action=autoRefreshUser&email=${encodeURIComponent(userData.email)}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const updatedUserData = result.data;
+                    localStorage.setItem('currentUser', JSON.stringify(updatedUserData));
+                    updateUserUI(updatedUserData);
+                    
+                    lastRefreshTime = new Date().toLocaleTimeString('vi-VN');
+                    lastRefreshTimeElement.textContent = lastRefreshTime;
+                } else {
+                    throw new Error('Không thể cập nhật thông tin');
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải thông tin người dùng:', error);
+                updateUserUI(userData);
+            }
+        }
+
+        function getCurrentUser() {
+            const userStr = localStorage.getItem('currentUser');
+            return userStr ? JSON.parse(userStr) : null;
+        }
+
+        function showSuccess(message) {
+            successText.textContent = message;
+            successMessage.style.display = 'flex';
+            errorMessage.style.display = 'none';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.style.display = 'flex';
+            successMessage.style.display = 'none';
+            
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Tạo token xác thực human interaction
+        async function generateHumanToken() {
+            const timestamp = Date.now();
+            const userAgent = navigator.userAgent;
+            const screenInfo = `${screen.width}x${screen.height}`;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            // Tạo token từ thông tin trình duyệt
+            const tokenData = `${timestamp}:${userAgent}:${screenInfo}:${timezone}`;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(tokenData);
+            
+            // Sử dụng subtle crypto nếu có
+            if (window.crypto && window.crypto.subtle) {
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+            } else {
+                // Fallback simple hash
+                return btoa(tokenData).slice(0, 32);
+            }
+        }
+
+        // Ghi log hợp pháp
+        function logLegalActivity(action, details) {
+            const logEntry = {
+                timestamp: new Date().toISOString(),
+                action: action,
+                details: details,
+                userAgent: navigator.userAgent,
+                referrer: document.referrer
+            };
+            
+            console.log('Legal Activity:', logEntry);
+            
+            // Có thể lưu vào localStorage để debug
+            try {
+                const logs = JSON.parse(localStorage.getItem('legalLogs') || '[]');
+                logs.push(logEntry);
+                if (logs.length > 100) logs.shift(); // Giới hạn 100 log
+                localStorage.setItem('legalLogs', JSON.stringify(logs));
+            } catch (e) {
+                console.warn('Could not save legal log');
+            }
+        }
+
+        // Ghi log khi người dùng thực hiện các hành động hợp pháp
+        document.addEventListener('DOMContentLoaded', function() {
+            logLegalActivity('page_load', { page: 'account.html' });
+        });
+
+        loginForm.addEventListener('submit', function() {
+            logLegalActivity('login_attempt', { 
+                username: document.getElementById('loginUsername').value.substring(0, 3) + '***' 
+            });
+        });
+
+        registerForm.addEventListener('submit', function() {
+            logLegalActivity('register_attempt', { 
+                email: document.getElementById('registerEmail').value.substring(0, 3) + '***',
+                consented: privacyConsent.checked
+            });
+        });
+
+        // Thêm sự kiện click cho footer links
+        document.querySelectorAll('.footer-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                logLegalActivity('legal_link_click', { 
+                    link: this.href,
+                    text: this.textContent 
+                });
+            });
+        });
+    </script>
+</body>
+</html>

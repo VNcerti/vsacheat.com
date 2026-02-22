@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hoàn Thành Nhiệm Vụ | IOSCert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-vip: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            --gradient-premium: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --dark: #1a202c;
+            --darker: #0d1117;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --vip: #d69e2e;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main Container */
+        .user-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .user-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .main-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: var(--gradient-warning);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+            padding: 0 5px;
+            margin-bottom: 5px;
+        }
+
+        /* VIP Section */
+        .vip-section {
+            background: rgba(214, 158, 46, 0.1);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(214, 158, 46, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+
+        .vip-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-vip);
+        }
+
+        .vip-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .vip-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-vip);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .vip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f6d365;
+            flex: 1;
+        }
+
+        .vip-content {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .vip-content strong {
+            color: #f6d365;
+            font-weight: 600;
+        }
+
+        .vip-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--gradient-vip);
+            color: #1a202c;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .vip-link:hover,
+        .vip-link:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(214, 158, 46, 0.3);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-title i {
+            background: var(--gradient-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .progress-percent {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-success);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-bar-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                transparent 100%);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .completed-count {
+            color: var(--success);
+        }
+
+        /* Tasks Container */
+        .tasks-container {
+            margin-bottom: 25px;
+        }
+
+        /* Task Card */
+        .task-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-card.completed {
+            background: rgba(72, 187, 120, 0.08);
+            border-color: rgba(72, 187, 120, 0.2);
+        }
+
+        .task-card.completed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--success);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .task-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-warning);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .task-card.completed .task-icon {
+            background: var(--success);
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-number {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            color: white;
+            word-break: break-word;
+        }
+
+        .task-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .status-pending {
+            background: rgba(237, 137, 54, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(237, 137, 54, 0.2);
+        }
+
+        .status-completed {
+            background: rgba(72, 187, 120, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(72, 187, 120, 0.2);
+        }
+
+        .task-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            font-size: 0.85rem;
+        }
+
+        .task-actions {
+            width: 100%;
+        }
+
+        .task-link-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .task-link-btn:hover,
+        .task-link-btn:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .task-card.completed .task-link-btn {
+            background: var(--success);
+            cursor: default;
+            border-color: rgba(72, 187, 120, 0.3);
+        }
+
+        .task-card.completed .task-link-btn:hover,
+        .task-card.completed .task-link-btn:active {
+            transform: none;
+            background: var(--success);
+        }
+
+        /* Click Indicator */
+        .click-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            display: none;
+        }
+
+        .click-indicator.active {
+            display: flex;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .click-icon {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .click-text {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        /* Completion Section */
+        .completion-section {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .completion-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: var(--gradient-success);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .completion-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: var(--gradient-warning);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .completion-text {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            padding: 0 5px;
+        }
+
+        .final-link-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--gradient-warning);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        .final-link-btn:hover,
+        .final-link-btn:active {
+            transform: scale(1.03);
+        }
+
+        /* Not Found */
+        .not-found {
+            text-align: center;
+            padding: 50px 20px;
+            display: none;
+        }
+
+        .not-found-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            color: var(--danger);
+            opacity: 0.7;
+        }
+
+        .not-found-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: var(--gradient-warning);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .not-found-text {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            padding: 0 5px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover,
+        .back-btn:active {
+            transform: translateY(-2px);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #667eea;
+            border-right: 4px solid #764ba2;
+            margin: 0 auto 15px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .user-footer {
+            text-align: center;
+            padding: 20px 15px;
+            opacity: 0.6;
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 30px;
+        }
+
+        /* Animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .user-header {
+                padding: 18px 12px;
+                margin-bottom: 16px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .main-title {
+                font-size: 1.4rem;
+            }
+            
+            .subtitle {
+                font-size: 0.85rem;
+            }
+            
+            .vip-section {
+                padding: 14px;
+                margin-bottom: 16px;
+            }
+            
+            .vip-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+            
+            .vip-title {
+                font-size: 1rem;
+            }
+            
+            .vip-content {
+                font-size: 0.82rem;
+            }
+            
+            .vip-link {
+                padding: 9px 16px;
+                font-size: 0.82rem;
+            }
+            
+            .progress-section {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            
+            .progress-title {
+                font-size: 1rem;
+            }
+            
+            .progress-title i {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+            
+            .progress-percent {
+                font-size: 1.6rem;
+            }
+            
+            .task-card {
+                padding: 16px;
+                margin-bottom: 12px;
+            }
+            
+            .task-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+            
+            .task-title {
+                font-size: 1rem;
+            }
+            
+            .task-description {
+                font-size: 0.82rem;
+            }
+            
+            .task-link-btn {
+                padding: 11px 14px;
+                font-size: 0.85rem;
+            }
+            
+            .completion-section {
+                padding: 25px 16px;
+            }
+            
+            .completion-icon {
+                font-size: 3rem;
+            }
+            
+            .completion-title {
+                font-size: 1.6rem;
+            }
+            
+            .final-link-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            
+            .user-header {
+                padding: 16px 10px;
+                margin-bottom: 14px;
+            }
+            
+            .logo {
+                font-size: 1.6rem;
+                margin-bottom: 8px;
+            }
+            
+            .main-title {
+                font-size: 1.3rem;
+                margin-bottom: 6px;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .vip-section {
+                padding: 12px;
+                margin-bottom: 14px;
+            }
+            
+            .vip-header {
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .vip-icon {
+                width: 26px;
+                height: 26px;
+                font-size: 0.85rem;
+            }
+            
+            .vip-title {
+                font-size: 0.95rem;
+            }
+            
+            .vip-content {
+                font-size: 0.78rem;
+                margin-bottom: 12px;
+            }
+            
+            .vip-link {
+                padding: 8px 14px;
+                font-size: 0.78rem;
+                gap: 6px;
+            }
+            
+            .progress-title {
+                font-size: 0.95rem;
+                gap: 8px;
+            }
+            
+            .progress-title i {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .progress-percent {
+                font-size: 1.4rem;
+            }
+            
+            .progress-bar {
+                height: 8px;
+            }
+            
+            .progress-stats {
+                font-size: 0.8rem;
+            }
+            
+            .task-card {
+                padding: 14px;
+            }
+            
+            .task-header {
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .task-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            
+            .task-title {
+                font-size: 0.95rem;
+            }
+            
+            .task-status {
+                padding: 4px 10px;
+                font-size: 0.7rem;
+            }
+            
+            .task-link-btn {
+                padding: 10px 12px;
+                font-size: 0.82rem;
+            }
+            
+            .click-indicator {
+                padding: 8px;
+                gap: 8px;
+            }
+            
+            .click-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 9px;
+            }
+            
+            .click-text {
+                font-size: 0.75rem;
+            }
+            
+            .user-footer {
+                padding: 16px 10px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media (max-width: 375px) and (max-height: 667px) {
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .main-title {
+                font-size: 1.2rem;
+            }
+            
+            .vip-content {
+                font-size: 0.75rem;
+            }
+            
+            .progress-title i {
+                width: 28px;
+                height: 28px;
+                font-size: 0.85rem;
+            }
+            
+            .task-icon {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .task-title {
+                font-size: 0.9rem;
+            }
+            
+            .task-description {
+                font-size: 0.78rem;
+            }
+        }
+
+        /* Prevent text size adjustment */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Main Container -->
+    <div class="user-container">
+        <!-- Header -->
+        <header class="user-header" id="userHeader">
+            <div class="logo">
+                <i class="fas fa-unlock-alt"></i>
+            </div>
+            <h1 class="main-title">Mở Khóa Truy Cập</h1>
+            <p class="subtitle" id="welcomeText">Hoàn thành tất cả nhiệm vụ để truy cập liên kết đích</p>
+        </header>
+
+        <!-- VIP Upgrade Section -->
+        <div class="vip-section" id="vipSection">
+            <div class="vip-header">
+                <div class="vip-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3 class="vip-title">Nâng Cấp VIP</h3>
+            </div>
+            <div class="vip-content">
+                <strong>Không muốn tốn thời gian vượt link?</strong> Nâng cấp VIP để sử dụng nhiều ứng dụng độc quyền mà không cần xem quảng cáo. Trải nghiệm tốt hơn, tiết kiệm thời gian hơn!
+            </div>
+            <a href="https://modos.site/payment" target="_blank" class="vip-link">
+                <i class="fas fa-rocket"></i> Nâng Cấp VIP Ngay
+            </a>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Đang tải nhiệm vụ...</p>
+        </div>
+
+        <!-- Not Found -->
+        <div class="not-found" id="notFound">
+            <div class="not-found-icon">
+                <i class="fas fa-unlink"></i>
+            </div>
+            <h2 class="not-found-title">Không Tìm Thấy Liên Kết</h2>
+            <p class="not-found-text" id="notFoundText">
+                Liên kết bạn đang tìm kiếm không tồn tại. Vui lòng kiểm tra lại.
+            </p>
+            <a href="link.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" style="display: none;">
+            <!-- Progress Section -->
+            <section class="progress-section" id="progressSection">
+                <div class="progress-header">
+                    <h3 class="progress-title">
+                        <i class="fas fa-tasks"></i>
+                        <span>Tiến Độ Hoàn Thành</span>
+                    </h3>
+                    <div class="progress-percent" id="progressPercent">0%</div>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>Đã hoàn thành: <span class="completed-count" id="completedCount">0</span>/<span id="totalTasksCount">0</span></span>
+                        <span>Còn lại: <span id="remainingCount">0</span> nhiệm vụ</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks Container -->
+            <div class="tasks-container" id="tasksContainer">
+                <!-- Tasks will be loaded here -->
+            </div>
+
+            <!-- Completion Section -->
+            <section class="completion-section" id="completionSection">
+                <div class="completion-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="completion-title">Chúc Mừng! 🎉</h2>
+                <p class="completion-text">
+                    Bạn đã hoàn thành tất cả nhiệm vụ. Hệ thống sẽ tự động chuyển hướng sau 
+                    <span id="countdown">5</span> giây...
+                </p>
+                <a href="#" id="finalLink" class="final-link-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Truy Cập Ngay
+                </a>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="user-footer">
+            <p>© 2024 IOSCert.site - Hệ thống giải pháp tiếp thị thông minh</p>
+            <p>Tiến độ được lưu tự động trong trình duyệt của bạn</p>
+        </footer>
+    </div>
+
+    <!-- Task Card Template -->
+    <template id="taskCardTemplate">
+        <div class="task-card" data-task-index="">
+            <div class="task-header">
+                <div class="task-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-number">Nhiệm vụ #<span class="task-index">1</span></div>
+                    <h3 class="task-title" id="taskTitle_"></h3>
+                    <span class="task-status status-pending" id="taskStatus_">Đang chờ</span>
+                </div>
+            </div>
+            
+            <p class="task-description" id="taskDescription_">
+                Nhấn vào nút bên dưới để truy cập nhiệm vụ. Sau khi hoàn thành, quay lại trang này để hệ thống tự động xác nhận.
+            </p>
+            
+            <div class="task-actions">
+                <a href="#" class="task-link-btn" target="_blank" rel="noopener noreferrer" id="taskLink_">
+                    <i class="fas fa-external-link-alt"></i> Truy cập để hoàn thành nhiệm vụ
+                </a>
+            </div>
+            
+            <!-- Click Indicator thay thế checkbox -->
+            <div class="click-indicator" id="clickIndicator_">
+                <div class="click-icon">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <div class="click-text">Đang chờ bạn hoàn thành nhiệm vụ...</div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-gMe98KTu8BhVsuM559jYiXSrw_k52Eo",
+            authDomain: "rutgonlink-9dc01.firebaseapp.com",
+            projectId: "rutgonlink-9dc01",
+            storageBucket: "rutgonlink-9dc01.firebasestorage.app",
+            messagingSenderId: "865748191550",
+            appId: "1:865748191550:web:1f417a4fed04e56602c46f",
+            measurementId: "G-QNXC1326QN"
+        };
+
+        // Initialize Firebase
+        let app, db;
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        // DOM Elements
+        const userHeader = document.getElementById('userHeader');
+        const welcomeText = document.getElementById('welcomeText');
+        const vipSection = document.getElementById('vipSection');
+        const loading = document.getElementById('loading');
+        const notFound = document.getElementById('notFound');
+        const notFoundText = document.getElementById('notFoundText');
+        const mainContent = document.getElementById('mainContent');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const progressSection = document.getElementById('progressSection');
+        const completionSection = document.getElementById('completionSection');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressFill = document.getElementById('progressFill');
+        const completedCount = document.getElementById('completedCount');
+        const totalTasksCount = document.getElementById('totalTasksCount');
+        const remainingCount = document.getElementById('remainingCount');
+        const finalLink = document.getElementById('finalLink');
+        const countdownElement = document.getElementById('countdown');
+        const bgAnimation = document.getElementById('bgAnimation');
+
+        // Task Template
+        const taskCardTemplate = document.getElementById('taskCardTemplate');
+
+        // Variables
+        let currentLinkId = '';
+        let currentTasks = [];
+        let completedTasks = [];
+        let currentDestination = '';
+        let countdownTimer = null;
+        let clickTimers = {};
+
+        // Initialize
+        function init() {
+            // Create background particles
+            createParticles();
+            
+            // Get link ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentLinkId = urlParams.get('id');
+            
+            // Hide main content initially
+            mainContent.style.display = 'none';
+            
+            if (!currentLinkId || currentLinkId.length < 8) {
+                showNotFound("Link không hợp lệ. Vui lòng kiểm tra lại.");
+                return;
+            }
+            
+            // Load the shortened link
+            loadShortenedLink();
+        }
+
+        // Create Background Particles
+        function createParticles() {
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size
+                const size = Math.random() * 60 + 30;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.06 + 0.03;
+                
+                bgAnimation.appendChild(particle);
+            }
+        }
+
+        // Load Shortened Link
+        async function loadShortenedLink() {
+            console.log("Loading link ID:", currentLinkId);
+            
+            if (!db) {
+                showNotFound("Lỗi kết nối Firebase. Vui lòng thử lại sau.");
+                return;
+            }
+            
+            try {
+                // Lấy document từ Firestore
+                const docRef = db.collection('shortenedLinks').doc(currentLinkId);
+                const doc = await docRef.get();
+                
+                console.log("Document exists:", doc.exists);
+                
+                if (!doc.exists) {
+                    showNotFound("Liên kết không tồn tại hoặc đã bị xóa.");
+                    return;
+                }
+                
+                const data = doc.data();
+                console.log("Document data:", data);
+                
+                if (!data || !data.tasks || !data.destination) {
+                    showNotFound("Dữ liệu không hợp lệ.");
+                    return;
+                }
+                
+                currentTasks = data.tasks || [];
+                currentDestination = data.destination || '';
+                
+                if (currentTasks.length === 0 || !currentDestination) {
+                    showNotFound("Không có nhiệm vụ hoặc link đích.");
+                    return;
+                }
+                
+                console.log("Tasks loaded:", currentTasks.length);
+                console.log("Destination:", currentDestination);
+                
+                // Cập nhật click count
+                try {
+                    await docRef.update({
+                        clickCount: firebase.firestore.FieldValue.increment(1),
+                        lastAccessed: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } catch (updateError) {
+                    console.warn("Could not update click count:", updateError);
+                }
+                
+                // Load completed tasks từ localStorage
+                const savedCompleted = localStorage.getItem(`completed_${currentLinkId}`);
+                completedTasks = savedCompleted ? JSON.parse(savedCompleted) : [];
+                
+                // Mark tasks as completed
+                currentTasks.forEach((task, index) => {
+                    task.completed = completedTasks.includes(index);
+                });
+                
+                // Update welcome text
+                welcomeText.textContent = `Hoàn thành ${currentTasks.length} nhiệm vụ để mở khóa truy cập.`;
+                
+                // Render UI
+                renderTasks();
+                updateProgress();
+                
+                // Show main content
+                loading.style.display = 'none';
+                mainContent.style.display = 'block';
+                vipSection.style.display = 'block';
+                
+                // Check if all tasks are completed
+                if (completedTasks.length === currentTasks.length && currentTasks.length > 0) {
+                    showCompletion();
+                }
+                
+            } catch (error) {
+                console.error("Error loading link:", error);
+                
+                if (error.code === 'permission-denied') {
+                    showNotFound("Lỗi cấu hình Firebase. Vui lòng thử lại sau.");
+                } else if (error.code === 'unavailable') {
+                    showNotFound("Mất kết nối mạng. Vui lòng kiểm tra internet.");
+                } else {
+                    showNotFound(`Lỗi hệ thống: ${error.message}`);
+                }
+            }
+        }
+
+        // Render Tasks
+        function renderTasks() {
+            tasksContainer.innerHTML = '';
+            
+            currentTasks.forEach((task, index) => {
+                const taskClone = taskCardTemplate.content.cloneNode(true);
+                const taskCard = taskClone.querySelector('.task-card');
+                const taskIndex = taskClone.querySelector('.task-index');
+                const taskTitle = taskClone.querySelector('.task-title');
+                const taskDescription = taskClone.querySelector('.task-description');
+                const taskStatus = taskClone.querySelector('.task-status');
+                const taskLink = taskClone.querySelector('.task-link-btn');
+                const clickIndicator = taskClone.querySelector('.click-indicator');
+                
+                // Set task data
+                taskCard.dataset.taskIndex = index;
+                taskIndex.textContent = index + 1;
+                taskTitle.textContent = task.description;
+                taskDescription.textContent = `Nhấn vào nút bên dưới để truy cập nhiệm vụ "${task.description}", sau khi hoàn thành hãy quay lại trang này.`;
+                taskLink.href = task.link;
+                
+                // Set unique IDs
+                taskTitle.id = `taskTitle_${index}`;
+                taskDescription.id = `taskDescription_${index}`;
+                taskStatus.id = `taskStatus_${index}`;
+                taskLink.id = `taskLink_${index}`;
+                clickIndicator.id = `clickIndicator_${index}`;
+                
+                // Mark as completed if needed
+                if (task.completed) {
+                    markTaskAsCompleted(taskCard, taskStatus, taskLink, index);
+                } else {
+                    // Add click event listener với auto-detect
+                    taskLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleTaskClick(task.link, index, taskCard, taskStatus, taskLink, clickIndicator);
+                    });
+                }
+                
+                tasksContainer.appendChild(taskClone);
+            });
+        }
+
+        // Handle Task Click với auto-detect
+        function handleTaskClick(link, index, taskCard, taskStatus, taskLink, clickIndicator) {
+            // Mở link trong tab mới
+            window.open(link, '_blank');
+            
+            // Hiển thị loading indicator
+            clickIndicator.classList.add('active');
+            
+            // Lắc task card để thu hút sự chú ý
+            taskCard.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                taskCard.style.animation = '';
+            }, 500);
+            
+            // Đếm ngược 3-5 giây rồi auto-mark as completed
+            const delay = Math.floor(Math.random() * 3) + 3; // 3-5 giây
+            
+            // Set timeout để auto-complete
+            if (clickTimers[index]) {
+                clearTimeout(clickTimers[index]);
+            }
+            
+            clickTimers[index] = setTimeout(() => {
+                markTaskAsCompleted(taskCard, taskStatus, taskLink, index);
+                clickIndicator.classList.remove('active');
+            }, delay * 1000);
+        }
+
+        // Mark task as completed
+        function markTaskAsCompleted(taskCard, taskStatus, taskLink, index) {
+            if (!currentTasks[index].completed) {
+                currentTasks[index].completed = true;
+                
+                // Update completedTasks array
+                completedTasks = [];
+                currentTasks.forEach((task, i) => {
+                    if (task.completed) {
+                        completedTasks.push(i);
+                    }
+                });
+                
+                // Save to localStorage
+                localStorage.setItem(`completed_${currentLinkId}`, JSON.stringify(completedTasks));
+                
+                // Update UI
+                taskCard.classList.add('completed');
+                taskStatus.textContent = 'Đã hoàn thành';
+                taskStatus.className = 'task-status status-completed';
+                taskLink.innerHTML = '<i class="fas fa-check"></i> Đã hoàn thành nhiệm vụ';
+                taskLink.style.background = 'var(--success)';
+                taskLink.style.cursor = 'default';
+                
+                // Remove click event
+                taskLink.onclick = null;
+                
+                // Hiệu ứng lắc xong
+                taskCard.style.animation = 'pulse 0.5s';
+                setTimeout(() => {
+                    taskCard.style.animation = '';
+                }, 500);
+                
+                // Update progress
+                updateProgress();
+                
+                // Check if all tasks are completed
+                if (completedTasks.length === currentTasks.length && currentTasks.length > 0) {
+                    showCompletion();
+                }
+            }
+        }
+
+        // Update Progress
+        function updateProgress() {
+            const completed = completedTasks.length;
+            const total = currentTasks.length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            progressPercent.textContent = `${percent}%`;
+            progressFill.style.width = `${percent}%`;
+            completedCount.textContent = completed;
+            totalTasksCount.textContent = total;
+            remainingCount.textContent = total - completed;
+        }
+
+        // Show Completion Section
+        function showCompletion() {
+            completionSection.style.display = 'block';
+            finalLink.href = currentDestination;
+            
+            // Start countdown
+            let countdown = 5;
+            countdownElement.textContent = countdown;
+            
+            if (countdownTimer) clearInterval(countdownTimer);
+            
+            countdownTimer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    window.location.href = currentDestination;
+                }
+            }, 1000);
+            
+            // Scroll to completion section
+            setTimeout(() => {
+                completionSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+
+        // Show Not Found
+        function showNotFound(message) {
+            loading.style.display = 'none';
+            notFound.style.display = 'block';
+            vipSection.style.display = 'none';
+            
+            if (message) {
+                notFoundText.innerHTML = message;
+            }
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+                20%, 40%, 60%, 80% { transform: translateX(3px); }
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.01); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
