@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>URL</key>
+            <string>https://vsacheat.com/get-udid/</string>
+            <key>DeviceAttributes</key>
+            <array>
+                <string>UDID</string>
+                <string>IMEI</string>
+                <string>PRODUCT</string>
+                <string>VERSION</string>
+                <string>DEVICE_NAME</string>
+            </array>
+        </dict>
+    </array>
+    <key>PayloadOrganization</key>
+    <string>VSA Cheat</string>
+    <key>PayloadDisplayName</key>
+    <string>Lấy UDID Thiết Bị</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadUUID</key>
+    <string>8A4B3C2D-1E5F-6G7H-8I9J-0K1L2M3N4O5P</string>
+    <key>PayloadType</key>
+    <string>Profile Service</string>
+    <key>PayloadIdentifier</key>
+    <string>com.vsacheat.udid</string>
+    <key>PayloadDescription</key>
+    <string>Công cụ lấy UDID thiết bị iOS - Không cần máy tính</string>
+</dict>
+</plist>
