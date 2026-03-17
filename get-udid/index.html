@@ -293,6 +293,24 @@
             font-size: 0.9rem;
         }
 
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9500;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .success-box {
+            background: #e3f7e3;
+            border-left: 4px solid #34c759;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 480px) {
             .container { padding: 1rem; }
             h1 { font-size: 2rem; }
@@ -317,39 +335,44 @@
             <a href="getudid.mobileconfig" class="cta-button" id="downloadBtn">LẤY UDID NGAY</a>
         </div>
 
-        <div class="note-box">
-            <strong>🔔 Lưu ý:</strong> Sau khi tải profile, vào <strong>Cài đặt → Cài đặt chung → VPN & Quản lý thiết bị</strong> để cài đặt.
+        <div class="warning-box" id="instructionBox">
+            <strong>⚠️ HƯỚNG DẪN QUAN TRỌNG:</strong><br>
+            1. Tải profile bằng nút trên<br>
+            2. Vào <strong>Cài đặt → Cài đặt chung → VPN & Quản lý thiết bị</strong><br>
+            3. Chọn profile "Lấy UDID Thiết Bị" → Nhấn "Cài đặt"<br>
+            4. Nhập mật khẩu thiết bị → Nhấn "Cài đặt" lần nữa → "Xong"<br>
+            5. <strong>QUAY LẠI trang này để xem UDID</strong>
         </div>
 
         <div class="steps">
-            <h2>Hướng dẫn 4 bước đơn giản</h2>
+            <h2>Hướng dẫn chi tiết</h2>
             <ul class="step-list">
                 <li class="step-item">
                     <span class="step-number">1</span>
                     <div class="step-content">
                         <div class="step-title">Tải Profile</div>
-                        <div class="step-desc">Nhấn nút bên trên để tải cấu hình iOS</div>
+                        <div class="step-desc">Nhấn nút "LẤY UDID NGAY" để tải cấu hình iOS</div>
                     </div>
                 </li>
                 <li class="step-item">
                     <span class="step-number">2</span>
                     <div class="step-content">
                         <div class="step-title">Cài đặt Profile</div>
-                        <div class="step-desc">Vào Cài đặt → Cài đặt chung → VPN & Quản lý thiết bị và tiến hành cài</div>
+                        <div class="step-desc">Vào Cài đặt → Cài đặt chung → VPN & Quản lý thiết bị → Chọn profile vừa tải</div>
                     </div>
                 </li>
                 <li class="step-item">
                     <span class="step-number">3</span>
                     <div class="step-content">
-                        <div class="step-title">Nhập mật khẩu</div>
-                        <div class="step-desc">Nhập mật khẩu thiết bị để hoàn tất</div>
+                        <div class="step-title">Xác nhận cài đặt</div>
+                        <div class="step-desc">Nhấn "Cài đặt" → Nhập mật khẩu → "Cài đặt" lần nữa → "Xong"</div>
                     </div>
                 </li>
                 <li class="step-item">
                     <span class="step-number">4</span>
                     <div class="step-content">
-                        <div class="step-title">Tự động chuyển hướng</div>
-                        <div class="step-desc">Thiết bị sẽ tự quay lại trang web và hiển thị UDID</div>
+                        <div class="step-title">Quay lại Website</div>
+                        <div class="step-desc"><strong>Sau khi cài xong, quay lại trang này để xem UDID</strong></div>
                     </div>
                 </li>
             </ul>
@@ -391,123 +414,175 @@
                 <span class="info-value" id="productValue">-</span>
             </div>
             
+            <div class="success-box" style="margin-top:1rem;">
+                <strong>✅ Đã lấy UDID thành công!</strong><br>
+                Bạn có thể xóa profile trong Cài đặt sau khi đã lấy UDID.
+            </div>
+            
             <div style="text-align:center; margin-top:1rem;">
-                <button onclick="copyUDID()" style="background:#f5f5f7; border:1px solid #d2d2d7; padding:0.5rem 1rem; border-radius:8px; cursor:pointer;">📋 Sao chép UDID</button>
+                <button onclick="copyUDID()" style="background:#0071e3; color:white; border:none; padding:0.75rem 1.5rem; border-radius:14px; cursor:pointer; font-weight:500;">📋 Sao chép UDID</button>
             </div>
         </div>
 
         <div class="error-message" id="errorMessage">
-            <p>❌ Không thể đọc dữ liệu từ thiết bị.</p>
-            <p style="font-size:0.9rem; margin-top:0.5rem;">Nguyên nhân có thể:</p>
-            <ul style="margin-left:1.5rem; font-size:0.9rem;">
-                <li>Profile chưa được cài đặt đúng cách</li>
-                <li>Thiết bị chưa quay lại trang sau khi cài</li>
-                <li>Trình duyệt không hỗ trợ</li>
-            </ul>
-            <button onclick="location.href='/get-udid/'" style="background:#0071e3; color:white; border:none; padding:0.5rem 1rem; border-radius:8px; margin-top:1rem; cursor:pointer;">Quay lại trang chủ</button>
+            <p>❌ Chưa nhận được dữ liệu UDID</p>
+            <p style="font-size:0.9rem; margin-top:0.5rem;">Bạn vừa cài profile xong phải không?</p>
+            <p style="font-size:0.9rem;">👉 <strong>Hãy thử refresh (tải lại) trang này</strong> để kiểm tra lại.</p>
+            <button onclick="location.reload()" style="background:#0071e3; color:white; border:none; padding:0.5rem 1rem; border-radius:8px; margin-top:1rem; margin-right:0.5rem; cursor:pointer;">🔄 Tải lại trang</button>
+            <button onclick="clearCache()" style="background:#f5f5f7; border:1px solid #d2d2d7; padding:0.5rem 1rem; border-radius:8px; margin-top:1rem; cursor:pointer;">🗑️ Thử lại</button>
         </div>
 
         <footer class="footer">
-            <p>© 2024 Công cụ lấy UDID | Hoạt động trên iOS 9 trở lên</p>
+            <p>© 2024 Công cụ lấy UDID | Hoạt động trên iOS 9+ | Sau khi cài profile, quay lại trang này và refresh</p>
         </footer>
     </div>
 
     <script>
         (function() {
+            console.log('UDID Tool loaded at:', window.location.href);
+            console.log('Search params:', window.location.search);
+
             // Hàm copy UDID
             window.copyUDID = function() {
                 const udidText = document.getElementById('udidValue').textContent;
                 if (udidText && udidText !== '-') {
                     navigator.clipboard.writeText(udidText).then(() => {
-                        alert('Đã sao chép UDID!');
+                        alert('✅ Đã sao chép UDID vào clipboard!');
                     });
                 }
             };
 
-            // Hàm parse XML data
-            function parseDeviceData(xmlString) {
-                try {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-                    
-                    // Kiểm tra lỗi parse
-                    const parseError = xmlDoc.querySelector('parsererror');
-                    if (parseError) {
-                        throw new Error('Invalid XML');
-                    }
-
-                    // Lấy dữ liệu từ các tag
-                    const getNodeValue = (tagName) => {
-                        const element = xmlDoc.getElementsByTagName(tagName)[0];
-                        return element ? element.textContent : null;
-                    };
-
-                    return {
-                        UDID: getNodeValue('UDID'),
-                        DEVICE_NAME: getNodeValue('DEVICE_NAME'),
-                        VERSION: getNodeValue('VERSION'),
-                        PRODUCT: getNodeValue('PRODUCT')
-                    };
-                } catch (e) {
-                    console.error('Parse error:', e);
-                    return null;
-                }
-            }
+            // Hàm clear cache và reload
+            window.clearCache = function() {
+                localStorage.clear();
+                sessionStorage.clear();
+                location.reload(true);
+            };
 
             // Kiểm tra URL parameters (từ redirect)
-            if (window.location.search) {
+            function checkURLParams() {
                 const urlParams = new URLSearchParams(window.location.search);
                 
-                const udid = urlParams.get('UDID');
-                const deviceName = urlParams.get('DEVICE_NAME');
-                const version = urlParams.get('VERSION');
-                const product = urlParams.get('PRODUCT');
+                const udid = urlParams.get('udid');
+                const product = urlParams.get('product');
+                const version = urlParams.get('version');
+                const device = urlParams.get('device');
                 
                 if (udid) {
+                    console.log('Found UDID in URL params:', udid);
+                    
                     // Hiển thị dữ liệu từ URL params
                     document.getElementById('udidValue').textContent = udid;
-                    document.getElementById('deviceNameValue').textContent = deviceName ? decodeURIComponent(deviceName) : 'Đang cập nhật...';
-                    document.getElementById('iosVersionValue').textContent = version || 'Đang cập nhật...';
-                    document.getElementById('productValue').textContent = product || 'Đang cập nhật...';
+                    document.getElementById('deviceNameValue').textContent = device ? decodeURIComponent(device) : 'Không xác định';
+                    document.getElementById('iosVersionValue').textContent = version || 'Không xác định';
+                    document.getElementById('productValue').textContent = product || 'Không xác định';
                     document.getElementById('resultCard').classList.add('visible');
                     
-                    // Xóa params khỏi URL
+                    // Xóa params khỏi URL để làm sạch
                     window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                    return true;
                 }
+                return false;
             }
 
-            // Xử lý POST data từ iOS
-            if (document.body.innerText.includes('<?xml') || document.body.innerText.includes('<plist')) {
-                document.getElementById('loading').classList.add('visible');
-                
-                // Lấy nội dung XML
-                const xmlContent = document.body.innerText;
-                
-                // Parse XML
-                const data = parseDeviceData(xmlContent);
-                
-                if (data && data.UDID) {
-                    setTimeout(() => {
-                        document.getElementById('loading').classList.remove('visible');
+            // Hàm parse XML data từ POST
+            function checkXMLData() {
+                if (document.body.innerText.includes('<?xml') || document.body.innerText.includes('<plist')) {
+                    console.log('Found XML data in page');
+                    document.getElementById('loading').classList.add('visible');
+                    
+                    // Lấy nội dung XML
+                    const xmlContent = document.body.innerText;
+                    
+                    try {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
                         
-                        document.getElementById('udidValue').textContent = data.UDID;
-                        document.getElementById('deviceNameValue').textContent = data.DEVICE_NAME || 'Đang cập nhật...';
-                        document.getElementById('iosVersionValue').textContent = data.VERSION || 'Đang cập nhật...';
-                        document.getElementById('productValue').textContent = data.PRODUCT || 'Đang cập nhật...';
-                        document.getElementById('resultCard').classList.add('visible');
+                        // Lấy dữ liệu
+                        const udid = xmlDoc.getElementsByTagName('UDID')[0]?.textContent;
+                        const deviceName = xmlDoc.getElementsByTagName('DEVICE_NAME')[0]?.textContent;
+                        const version = xmlDoc.getElementsByTagName('VERSION')[0]?.textContent;
+                        const product = xmlDoc.getElementsByTagName('PRODUCT')[0]?.textContent;
                         
-                        // Xóa XML content
-                        document.body.innerHTML = document.body.innerHTML.replace(xmlContent, '');
-                    }, 1000);
-                } else {
+                        if (udid) {
+                            setTimeout(() => {
+                                document.getElementById('loading').classList.remove('visible');
+                                
+                                document.getElementById('udidValue').textContent = udid;
+                                document.getElementById('deviceNameValue').textContent = deviceName || 'Không xác định';
+                                document.getElementById('iosVersionValue').textContent = version || 'Không xác định';
+                                document.getElementById('productValue').textContent = product || 'Không xác định';
+                                document.getElementById('resultCard').classList.add('visible');
+                                
+                                // Xóa XML content
+                                document.body.innerHTML = document.body.innerHTML.replace(xmlContent, '');
+                            }, 1000);
+                            
+                            return true;
+                        }
+                    } catch (e) {
+                        console.error('Parse error:', e);
+                    }
+                    
                     document.getElementById('loading').classList.remove('visible');
+                }
+                return false;
+            }
+
+            // Kiểm tra localStorage (dành cho redirect thủ công)
+            function checkLocalStorage() {
+                const storedData = localStorage.getItem('udid_data');
+                if (storedData) {
+                    try {
+                        const data = JSON.parse(storedData);
+                        if (data.udid) {
+                            document.getElementById('udidValue').textContent = data.udid;
+                            document.getElementById('deviceNameValue').textContent = data.deviceName || 'Không xác định';
+                            document.getElementById('iosVersionValue').textContent = data.version || 'Không xác định';
+                            document.getElementById('productValue').textContent = data.product || 'Không xác định';
+                            document.getElementById('resultCard').classList.add('visible');
+                            
+                            // Xóa sau khi hiển thị
+                            localStorage.removeItem('udid_data');
+                            return true;
+                        }
+                    } catch (e) {}
+                }
+                return false;
+            }
+
+            // Thử tất cả các phương pháp
+            if (!checkURLParams() && !checkXMLData() && !checkLocalStorage()) {
+                // Kiểm tra nếu vừa cài profile (có thể redirect không thành công)
+                if (document.referrer.includes('profile') || document.referrer.includes('udid')) {
                     document.getElementById('errorMessage').classList.add('visible');
                 }
             }
 
-            // Log để debug
-            console.log('UDID Tool loaded at:', window.location.href);
-            console.log('Search params:', window.location.search);
+            // Auto-refresh detection (cho trường hợp redirect chậm)
+            let retryCount = 0;
+            const maxRetries = 3;
+            
+            function checkForData() {
+                if (!document.getElementById('resultCard').classList.contains('visible')) {
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        console.log(`Retry ${retryCount} to check for data...`);
+                        setTimeout(() => {
+                            if (checkURLParams() || checkXMLData() || checkLocalStorage()) {
+                                console.log('Data found on retry!');
+                            } else if (retryCount === maxRetries) {
+                                // Không hiện error message tự động để tránh làm phiền
+                                console.log('No data found after retries');
+                            }
+                        }, 2000 * retryCount);
+                    }
+                }
+            }
+            
+            // Chạy kiểm tra định kỳ
+            setTimeout(checkForData, 1000);
         })();
     </script>
 </body>
