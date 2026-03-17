@@ -5,6 +5,18 @@
     <key>PayloadContent</key>
     <array>
         <dict>
+            <key>PayloadType</key>
+            <string>com.apple.configuration.profile.service</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.vsacheat.udid.service</string>
+            <key>PayloadUUID</key>
+            <string>8A4B3C2D-1E5F-6G7H-8I9J-0K1L2M3N4O5P</string>
+            <key>PayloadDisplayName</key>
+            <string>Dịch vụ lấy UDID</string>
+            <key>PayloadDescription</key>
+            <string>Cung cấp UDID cho thiết bị</string>
             <key>URL</key>
             <string>https://vsacheat.com/get-udid/</string>
             <key>DeviceAttributes</key>
@@ -14,22 +26,28 @@
                 <string>PRODUCT</string>
                 <string>VERSION</string>
                 <string>DEVICE_NAME</string>
+                <string>MAC_ADDRESS_EN0</string>
+                <string>SERIAL</string>
             </array>
         </dict>
     </array>
-    <key>PayloadOrganization</key>
-    <string>VSA Cheat</string>
-    <key>PayloadDisplayName</key>
-    <string>Lấy UDID Thiết Bị</string>
+    <key>PayloadType</key>
+    <string>Configuration</string>
     <key>PayloadVersion</key>
     <integer>1</integer>
-    <key>PayloadUUID</key>
-    <string>8A4B3C2D-1E5F-6G7H-8I9J-0K1L2M3N4O5P</string>
-    <key>PayloadType</key>
-    <string>Profile Service</string>
     <key>PayloadIdentifier</key>
     <string>com.vsacheat.udid</string>
+    <key>PayloadUUID</key>
+    <string>1A2B3C4D-5E6F-7G8H-9I0J-1K2L3M4N5O6P</string>
+    <key>PayloadDisplayName</key>
+    <string>Công cụ lấy UDID</string>
     <key>PayloadDescription</key>
-    <string>Công cụ lấy UDID thiết bị iOS - Không cần máy tính</string>
+    <string>Cài đặt profile này để lấy UDID thiết bị iOS của bạn</string>
+    <key>PayloadOrganization</key>
+    <string>VSA Cheat</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadScope</key>
+    <string>System</string>
 </dict>
 </plist>
