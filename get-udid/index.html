@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get UDID - Device ID Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 UDID Finder</h1>
+            <p>Get your device UDID easily and securely</p>
+        </header>
+
+        <main>
+            <div class="device-section">
+                <h2>Select Your Device</h2>
+                <div class="device-options">
+                    <button class="device-btn ios" onclick="handleDeviceSelect('ios')">
+                        <span class="icon">📱</span>
+                        iOS Device
+                    </button>
+                    <button class="device-btn android" onclick="handleDeviceSelect('android')">
+                        <span class="icon">🤖</span>
+                        Android Device
+                    </button>
+                </div>
+            </div>
+
+            <div id="ios-instructions" class="instructions hidden">
+                <h3>📱 iOS Device Instructions</h3>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <p>Click the button below to download the configuration profile</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <p>Go to Settings > General > VPN & Device Management</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <p>Install the profile and enter your device passcode</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <p>Your UDID will be displayed automatically</p>
+                    </div>
+                </div>
+                <button class="profile-btn" onclick="downloadProfile()">
+                    Download Configuration Profile
+                </button>
+            </div>
+
+            <div id="android-instructions" class="instructions hidden">
+                <h3>🤖 Android Device Instructions</h3>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <p>Go to Settings > About Phone</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <p>Tap on "Status" or "Device Information"</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <p>Find and note your IMEI or Device ID</p>
+                    </div>
+                </div>
+                <div class="android-info">
+                    <p>⚠️ Note: Android devices don't have UDID like iOS. Use IMEI or Android ID instead.</p>
+                </div>
+            </div>
+
+            <div id="result-section" class="result-section hidden">
+                <h3>Your Device Information</h3>
+                <div class="device-info">
+                    <div class="info-row">
+                        <span class="info-label">UDID:</span>
+                        <span class="info-value" id="udid-value"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Device Model:</span>
+                        <span class="info-value" id="device-model"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">iOS Version:</span>
+                        <span class="info-value" id="ios-version"></span>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyUDID()">Copy UDID</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2024 UDID Finder. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
