@@ -58,7 +58,7 @@ body {
     font-size: 13px;
     min-height: 100vh;
     padding-top: calc(15px + var(--safe-area-inset-top));
-    padding-bottom: 80px;
+    padding-bottom: var(--nav-height);
 }
 
 /* Main Content */
@@ -72,7 +72,7 @@ body {
     padding: 0 12px;
 }
 
-/* ===== HEADER MỚI - PHONG CÁCH WEBSITE NHƯNG TINH CHỈNH CHO WKWEBVIEW ===== */
+/* Header - ĐÃ CHỈNH SỬA */
 .header {
     background: var(--background);
     border-bottom: 1px solid var(--border);
@@ -90,14 +90,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1px 0;
+    padding: 8px 0;
+    height: 50px;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--primary);
     text-decoration: none;
@@ -105,28 +106,41 @@ body {
 
 .logo-icon {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    width: 26px;
-    height: 26px;
+    width: 36px;
+    height: 36px;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 12px;
+    font-size: 22px;
 }
 
-.logo-lottie {
+.search-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 50px;
-    margin-left: -4px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 6px 12px;
+    flex: 1;
+    max-width: 200px;
+    margin: 0 12px;
+    gap: 6px;
+    border: 1px solid var(--border);
 }
 
-dotlottie-wc {
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
     width: 100%;
-    height: 100%;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.search-bar i {
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
 .user-actions {
@@ -148,8 +162,6 @@ dotlottie-wc {
     transition: all 0.2s ease;
     font-size: 14px;
     text-decoration: none;
-    position: relative;
-    overflow: hidden;
 }
 
 .icon-btn:hover {
@@ -188,23 +200,7 @@ dotlottie-wc {
     transform: rotate(0deg) scale(1);
 }
 
-/* Ripple effect */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.7);
-    transform: scale(0);
-    animation: ripple-animation 0.6s linear;
-}
-
-@keyframes ripple-animation {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-
-/* Hero Section - GIỮ NGUYÊN NỘI DUNG WKWEBVIEW */
+/* Hero Section */
 .hero {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: white;
@@ -221,7 +217,7 @@ dotlottie-wc {
 
 .hero h1 {
     font-size: 18px;
-    margin-top: 38px;
+    margin-top: 18px;
     font-weight: 700;
     margin-bottom: 8px;
     line-height: 1.3;
@@ -253,6 +249,7 @@ dotlottie-wc {
 }
 
 /* ===== FEATURED APPS CAROUSEL ===== */
+
 .featured-section {
     margin: 16px 0;
 }
@@ -278,6 +275,7 @@ dotlottie-wc {
     display: none;
 }
 
+/* FEATURED CARD DESIGN - AppStore Style */
 .featured-card {
     flex: 0 0 auto;
     width: 320px;
@@ -297,6 +295,7 @@ dotlottie-wc {
     border-color: var(--primary);
 }
 
+/* Background Layer */
 .featured-background {
     position: absolute;
     top: 0;
@@ -312,6 +311,7 @@ dotlottie-wc {
     transform: scale(1.05);
 }
 
+/* Gradient Overlay */
 .featured-overlay {
     position: absolute;
     top: 0;
@@ -322,6 +322,7 @@ dotlottie-wc {
     z-index: 2;
 }
 
+/* Content Layer */
 .featured-content {
     position: absolute;
     bottom: 0;
@@ -334,6 +335,7 @@ dotlottie-wc {
     gap: 14px;
 }
 
+/* App Logo Square */
 .featured-logo-container {
     width: 54px;
     height: 54px;
@@ -355,6 +357,7 @@ dotlottie-wc {
     object-fit: cover;
 }
 
+/* Text Content */
 .featured-text-content {
     flex: 1;
     color: white;
@@ -381,6 +384,7 @@ dotlottie-wc {
     text-overflow: ellipsis;
 }
 
+/* Rating Only */
 .featured-rating {
     display: flex;
     align-items: center;
@@ -394,6 +398,7 @@ dotlottie-wc {
     color: #FFD700;
 }
 
+/* Badge */
 .featured-badge {
     position: absolute;
     top: 12px;
@@ -409,12 +414,27 @@ dotlottie-wc {
     text-transform: uppercase;
 }
 
-.badge-premium { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.badge-hot { background: linear-gradient(135deg, #ef4444, #dc2626); }
-.badge-new { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.badge-trending { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-.badge-vip { background: linear-gradient(135deg, #ec4899, #db2777); }
+.badge-premium {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
 
+.badge-hot {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.badge-new {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.badge-trending {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.badge-vip {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+}
+
+/* Carousel Navigation */
 .carousel-nav {
     display: flex;
     justify-content: center;
@@ -465,9 +485,16 @@ dotlottie-wc {
     box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
 }
 
-.nav-arrow.prev { left: 8px; display: none; }
-.nav-arrow.next { right: 8px; }
+.nav-arrow.prev {
+    left: 8px;
+    display: none;
+}
 
+.nav-arrow.next {
+    right: 8px;
+}
+
+/* Loading Animation for Featured */
 .featured-loading {
     display: flex;
     gap: 12px;
@@ -485,6 +512,7 @@ dotlottie-wc {
     border-radius: 16px;
 }
 
+/* Scroll Indicator */
 .scroll-indicator {
     text-align: center;
     margin-top: 8px;
@@ -503,7 +531,7 @@ dotlottie-wc {
     opacity: 1;
 }
 
-/* ===== CATEGORIES SECTION ===== */
+/* ===== UPDATED CATEGORIES SECTION ===== */
 .categories-section {
     margin-bottom: 20px;
     padding: 0 4px;
@@ -539,16 +567,17 @@ dotlottie-wc {
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 8px 4px 2px 4px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding: 8px 4px 2px 4px; /* ĐÃ GIẢM PADDING DƯỚI ĐỂ DỊCH LÊN */
+    scrollbar-width: none; /* ẨN THANH TRƯỢT */
+    -ms-overflow-style: none; /* ẨN THANH TRƯỢT CHO IE */
     -webkit-overflow-scrolling: touch;
 }
 
 .categories-scroll::-webkit-scrollbar {
-    display: none;
+    display: none; /* ẨN THANH TRƯỢT CHO WEBKIT */
 }
 
+/* New Category Card Design - Chip Style */
 .category-card {
     display: flex;
     align-items: center;
@@ -604,22 +633,34 @@ dotlottie-wc {
     transform: scale(1.1);
 }
 
+.category-card.active:hover .category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
 .category-name {
     font-weight: 500;
     font-size: 13px;
     letter-spacing: -0.01em;
 }
 
+/* Animation for active state */
 @keyframes pulseActive {
-    0% { box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2); }
-    50% { box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3); }
-    100% { box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2); }
+    0% {
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+    }
+    100% {
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
+    }
 }
 
 .category-card.active {
     animation: pulseActive 2s infinite;
 }
 
+/* ===== CATEGORIES HINT - ĐÃ CẬP NHẬT VỊ TRÍ ===== */
 .categories-hint {
     display: flex;
     align-items: center;
@@ -627,10 +668,10 @@ dotlottie-wc {
     gap: 6px;
     color: var(--text-muted);
     font-size: 11px;
-    margin-top: 5px;
+    margin-top: 5px; /* GIẢM MARGIN ĐỂ DỊCH LÊN TRÊN */
     opacity: 0.7;
     transition: opacity 0.3s ease;
-    padding: 2px 0;
+    padding: 2px 0; /* GIẢM PADDING */
 }
 
 .categories-hint i {
@@ -639,15 +680,20 @@ dotlottie-wc {
 }
 
 @keyframes slideRight {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(4px); }
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(4px);
+    }
 }
 
+/* Hiệu ứng khi hover lên categories-scroll */
 .categories-scroll:hover ~ .categories-hint {
     opacity: 0.3;
 }
 
-/* ===== APPS SECTION ===== */
+/* Apps Section */
 .apps-section {
     margin-bottom: 16px;
 }
@@ -676,6 +722,7 @@ dotlottie-wc {
     box-shadow: var(--card-shadow-hover);
 }
 
+/* ẢNH ỨNG DỤNG CÓ THỂ CLICK */
 .app-logo {
     width: 90px;
     height: 90px;
@@ -711,6 +758,7 @@ dotlottie-wc {
     min-width: 0;
 }
 
+/* TÊN ỨNG DỤNG CÓ THỂ CLICK */
 .app-name {
     font-size: 15px;
     font-weight: 700;
@@ -728,24 +776,27 @@ dotlottie-wc {
     color: var(--primary);
 }
 
-/* PHẦN MÔ TẢ ỨNG DỤNG ĐÃ ĐƯỢC CHỈNH SỬA THÀNH .app-version-meta */
-.app-version-meta {
+.app-tags {
     display: flex;
-    gap: 12px;
-    font-size: 10px;
-    color: var(--text-muted);
-    margin-bottom: 1px;
-}
-
-.app-version-meta .app-meta-item {
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 4px;
+    margin-bottom: 4px;
 }
 
-.app-version-meta .app-meta-item i {
+/* CHỈNH SỬA APP-TAG CHO CHẾ ĐỘ TỐI */
+.app-tag {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 2px 6px;
+    border-radius: 6px;
     font-size: 9px;
-    width: 12px;
+    font-weight: 500;
+}
+
+/* Chỉ áp dụng màu #181f2e cho chế độ tối */
+[data-theme="dark"] .app-tag {
+    background: #181f2e;
+    color: var(--primary);
 }
 
 .app-meta {
@@ -793,6 +844,7 @@ dotlottie-wc {
     overflow: hidden;
     flex: 1;
     margin-top: -4px;
+    margin-bottom: -8px;
 }
 
 .description-item {
@@ -832,39 +884,28 @@ dotlottie-wc {
     margin-top: 4px;
 }
 
-.index-download-btn {
+/* NÚT TẢI VỀ TRONG APP-DETAIL (KHÔNG ĐƯỢC CHỈNH SỬA) */
+.download-btn {
+    background: var(--primary);
+    color: white;
     border: none;
-    padding: 6px 16px;
-    border-radius: 30px;
+    padding: 6px 12px;
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 11px;
-    height: 30px;
-    letter-spacing: 0.5px;
-    min-width: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: #EEEEEF;
-    color: #007AFF;
+    gap: 4px;
+    font-size: 11px;
 }
 
-[data-theme="dark"] .index-download-btn {
-    background: rgba(0, 122, 255, calc(1.33 * 0.06));
-    color: #148eff;
-}
-
-.index-download-btn:hover {
+.download-btn:hover {
+    background: var(--primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
 }
 
-[data-theme="dark"] .index-download-btn:hover {
-    background: rgba(0, 122, 255, calc(1.33 * 0.12));
-}
-
-/* Search Modal - GIỮ NGUYÊN CHỈNH SỬA ĐẶC THÙ CỦA WKWEBVIEW */
+/* Search Modal */
 .search-modal {
     display: none;
     position: fixed;
@@ -880,8 +921,12 @@ dotlottie-wc {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .search-modal-content {
@@ -897,8 +942,12 @@ dotlottie-wc {
 }
 
 @keyframes slideDown {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .search-modal-header {
@@ -917,7 +966,7 @@ dotlottie-wc {
     background: var(--surface);
     color: var(--text-primary);
     outline: none;
-    margin-top: 40px; /* ĐẶC THÙ CHO WKWEBVIEW */
+    margin-top: 40px;
 }
 
 .search-modal-input:focus {
@@ -943,205 +992,6 @@ dotlottie-wc {
 .search-results {
     max-height: 70vh;
     overflow-y: auto;
-}
-
-.no-results {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-muted);
-}
-
-.no-results i {
-    font-size: 40px;
-    margin-bottom: 12px;
-    color: var(--text-muted);
-}
-
-/* ===== FLOATING PILL BOTTOM NAVIGATION - PHONG CÁCH MỚI CHO WKWEBVIEW ===== */
-.floating-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    pointer-events: none;
-    padding: 12px 16px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-}
-
-.nav-pill {
-    pointer-events: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 6px;
-    padding: 6px;
-    background: rgba(28, 28, 30, 0.4);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 100px;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        0 2px 8px rgba(0, 0, 0, 0.1),
-        0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
-    width: fit-content;
-    max-width: min(480px, calc(100vw - 32px));
-    min-width: 320px;
-    transition: none;
-    border: none;
-}
-
-[data-theme="light"] .nav-pill {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.08),
-        0 2px 8px rgba(0, 0, 0, 0.04),
-        0 0 0 0.5px rgba(0, 0, 0, 0.03) inset;
-}
-
-.nav-pill-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    border-radius: 100px;
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 500;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    flex: 0 0 auto;
-    min-width: 48px;
-    min-height: 48px;
-    overflow: hidden;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    border: none;
-    background: transparent;
-    white-space: nowrap;
-    gap: 0;
-}
-
-[data-theme="light"] .nav-pill-item {
-    color: rgba(0, 0, 0, 0.55);
-}
-
-.nav-pill-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    width: 24px;
-    height: 24px;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    flex-shrink: 0;
-}
-
-.nav-pill-label {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    width: 0;
-    max-width: 0;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
-    margin-left: 0;
-    transform: translateX(-4px);
-}
-
-.nav-pill-item.active {
-    background: rgba(255, 255, 255, 0.12);
-    color: #007AFF;
-    padding: 8px 18px;
-    gap: 8px;
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
-    flex: 0 1 auto;
-}
-
-[data-theme="light"] .nav-pill-item.active {
-    background: rgba(0, 0, 0, 0.06);
-    color: #007AFF;
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.06),
-        0 0 0 0.5px rgba(0, 0, 0, 0.05) inset;
-}
-
-.nav-pill-item.active .nav-pill-label {
-    opacity: 1;
-    width: auto;
-    max-width: 100px;
-    margin-left: -2px;
-    transform: translateX(0);
-}
-
-.nav-pill-item.active .nav-pill-icon {
-    transform: scale(1.05);
-    color: #007AFF;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .nav-pill-item:hover:not(.active) {
-        color: rgba(255, 255, 255, 0.85);
-        background: rgba(255, 255, 255, 0.06);
-    }
-    
-    [data-theme="light"] .nav-pill-item:hover:not(.active) {
-        color: rgba(0, 0, 0, 0.75);
-        background: rgba(0, 0, 0, 0.03);
-    }
-    
-    .nav-pill-item:hover .nav-pill-icon {
-        transform: scale(1.08);
-    }
-}
-
-.nav-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(0);
-    opacity: 0;
-    pointer-events: none;
-    width: 100px;
-    height: 100px;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-}
-
-[data-theme="light"] .nav-ripple {
-    background: rgba(0, 0, 0, 0.15);
-}
-
-.nav-ripple.active {
-    animation: nav-ripple-animation 0.4s ease-out forwards;
-}
-
-@keyframes nav-ripple-animation {
-    0% {
-        transform: scale(0);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
-}
-
-.nav-pill-item {
-    will-change: transform, padding, gap;
-    touch-action: manipulation;
 }
 
 /* Footer */
@@ -1205,7 +1055,82 @@ dotlottie-wc {
     font-size: 10px;
 }
 
-/* Loading & Skeleton */
+/* ===== BOTTOM NAVIGATION - CHỈ CHỈNH SỬA KÍCH THƯỚC ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    border-top: 1px solid var(--border);
+    padding: 8px 0 var(--safe-area-inset-bottom);
+    z-index: 1000;
+    height: var(--nav-height);
+}
+
+.nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    flex: 1;
+    padding: -10px 0; /* TĂNG PADDING */
+    border-radius: 8px;
+    position: relative;
+    height: 100%;
+    justify-content: center;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 6px; /* DỊCH LÊN TRÊN */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px; /* TĂNG KÍCH THƯỚC */
+    height: 5px; /* TĂNG KÍCH THƯỚC */
+    background-color: var(--primary);
+    border-radius: 50%;
+}
+
+.nav-icon {
+    font-size: 24px; /* TĂNG TỪ 20px LÊN 24px */
+    margin-bottom: 6px; /* TĂNG MARGIN */
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+.nav-item.active .nav-icon {
+    color: var(--primary);
+}
+
+.nav-label {
+    font-size: 13px; /* TĂNG TỪ 11px LÊN 13px */
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+/* Hiệu ứng hover đơn giản cho nav item */
+.nav-item:hover {
+    color: var(--primary);
+}
+
+/* Loading */
 .loading {
     text-align: center;
     padding: 10px 10px;
@@ -1228,6 +1153,20 @@ dotlottie-wc {
     100% { transform: rotate(360deg); }
 }
 
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.no-results i {
+    font-size: 40px;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+}
+
+/* Skeleton Loading */
 .skeleton {
     background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
     background-size: 200% 100%;
@@ -1290,72 +1229,43 @@ dotlottie-wc {
 }
 
 @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-/* Auto Refresh Notification */
-.auto-refresh-notification {
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    padding: 10px 20px;
-    border-radius: 50px;
-    background: rgba(28, 28, 30, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 0.5px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    white-space: nowrap;
-    max-width: calc(100vw - 40px);
-}
-
-[data-theme="light"] .auto-refresh-notification {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 0.5px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    color: #1c1c1e;
-}
-
-.auto-refresh-notification i {
-    font-size: 13px;
-    opacity: 0.9;
-}
-
-.auto-refresh-notification.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: none;
-}
-
-.auto-refresh-indicator {
-    display: none !important;
-}
-
-/* Responsive Design - GIỮ NGUYÊN CÁC CHỈNH SỬA CỦA WKWEBVIEW */
-@media (max-width: 768px) {
-    .auto-refresh-notification {
-        padding: 8px 16px;
-        font-size: 12px;
-        top: 65px;
+    0% {
+        background-position: 200% 0;
     }
-    
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Debug Info */
+.debug-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    display: none;
+}
+
+.debug-toggle {
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 11px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* Chế độ tối cho debug-toggle */
+[data-theme="dark"] .debug-toggle {
+    color: #1e293b;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Responsive for Featured Carousel */
+@media (max-width: 768px) {
     .featured-card {
         width: 280px;
         height: 160px;
@@ -1392,6 +1302,11 @@ dotlottie-wc {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
     
+    .search-bar {
+        margin: 0 8px;
+        max-width: 180px;
+    }
+    
     .hero h1 {
         font-size: 16px;
     }
@@ -1411,6 +1326,7 @@ dotlottie-wc {
         font-size: 14px;
     }
     
+    /* Categories responsive */
     .categories-section {
         margin-bottom: 16px;
     }
@@ -1441,56 +1357,44 @@ dotlottie-wc {
         padding: 4px 10px;
     }
     
+    /* Categories hint responsive */
     .categories-hint {
         font-size: 10px;
         gap: 5px;
-        margin-top: 5px;
+        margin-top: 5px; /* GIẢM THÊM CHO MOBILE */
     }
     
+    .categories-hint i {
+        font-size: 9px;
+    }
+    
+    /* Footer responsive */
     .footer-links {
         gap: 15px;
     }
     
-    .floating-nav {
-        padding: 10px 12px;
-        padding-bottom: max(10px, env(safe-area-inset-bottom));
+    /* Bottom nav responsive - CHỈNH KÍCH THƯỚC CHO TABLET */
+    .nav-icon {
+        font-size: 22px; /* GIẢM NHẸ TỪ 24px */
     }
     
-    .nav-pill {
-        padding: 5px;
-        gap: 4px;
-        max-width: min(440px, calc(100vw - 24px));
-        min-width: 300px;
+    .nav-label {
+        margin-top: -5px;
+        font-size: 12px; /* GIẢM NHẸ TỪ 13px */
     }
     
-    .nav-pill-item {
-        padding: 7px 10px;
-        min-height: 44px;
+    .bottom-nav {
+        padding: 6px 0 var(--safe-area-inset-bottom);
     }
     
-    .nav-pill-item.active {
-        padding: 7px 14px;
-        gap: 6px;
-    }
-    
-    .nav-pill-icon {
-        font-size: 18px;
-        width: 22px;
-        height: 22px;
-    }
-    
-    .nav-pill-label {
-        font-size: 12px;
+    .nav-item.active::after {
+        bottom: -15px;
+        width: 4px;
+        height: 4px;
     }
 }
 
 @media (max-width: 480px) {
-    .auto-refresh-notification {
-        padding: 7px 14px;
-        font-size: 11px;
-        top: 60px;
-    }
-    
     .featured-card {
         width: 270px;
         height: 165px;
@@ -1514,12 +1418,35 @@ dotlottie-wc {
         font-size: 14px;
     }
     
+    .featured-description {
+        font-size: 11px;
+    }
+    
+    .featured-rating {
+        font-size: 10px;
+    }
+    
     .container {
         padding: 0 10px;
     }
     
     .apps-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .logo {
+        font-size: 24px;
+    }
+    
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .search-bar {
+        margin: 0 6px;
+        padding: 5px 10px;
+        max-width: 150px;
     }
     
     .hero {
@@ -1544,16 +1471,14 @@ dotlottie-wc {
         font-size: 13px;
     }
     
-    .index-download-btn {
-        padding: 4px 12px;
-        font-size: 9px;
-        height: 26px;
-        min-width: 50px;
+    .app-description {
+        font-size: 10px;
     }
     
+    /* Categories responsive */
     .categories-scroll {
         gap: 6px;
-        padding: 6px 2px 0px 2px;
+        padding: 6px 2px 0px 2px; /* GIẢM PADDING DƯỚI VỀ 0 */
     }
     
     .category-card {
@@ -1577,12 +1502,38 @@ dotlottie-wc {
         margin-bottom: 10px;
     }
     
+    /* Categories hint responsive */
     .categories-hint {
         font-size: 9px;
         gap: 4px;
-        margin-top: 5px;
+        margin-top: 5px; /* GIẢM VỀ 0 CHO MOBILE NHỎ */
     }
     
+    .categories-hint i {
+        font-size: 8px;
+    }
+    
+    /* Bottom nav responsive - CHỈNH KÍCH THƯỚC CHO MOBILE */
+    .nav-icon {
+        font-size: 20px; /* GIẢM TỪ 22px XUỐNG 20px */
+    }
+    
+    .nav-label {
+        margin-top: -5px;
+        font-size: 11px; /* GIẢM TỪ 12px XUỐNG 11px */
+    }
+    
+    .nav-item.active::after {
+        width: 4px;
+        height: 4px;
+        bottom: -6px;
+    }
+    
+    .bottom-nav {
+        padding: 4px 0 var(--safe-area-inset-bottom);
+    }
+    
+    /* Footer responsive */
     .footer-links {
         gap: 12px;
     }
@@ -1599,39 +1550,9 @@ dotlottie-wc {
         padding: 20px 0 35px;
         font-size: 10px;
     }
-    
-    .floating-nav {
-        padding: 8px 10px;
-        padding-bottom: max(8px, env(safe-area-inset-bottom));
-    }
-    
-    .nav-pill {
-        padding: 4px;
-        gap: 2px;
-        min-width: 280px;
-    }
-    
-    .nav-pill-item {
-        padding: 6px 8px;
-        min-height: 40px;
-    }
-    
-    .nav-pill-item.active {
-        padding: 6px 10px;
-        gap: 4px;
-    }
-    
-    .nav-pill-icon {
-        font-size: 16px;
-        width: 20px;
-        height: 20px;
-    }
-    
-    .nav-pill-label {
-        font-size: 11px;
-    }
 }
 
+/* For very small screens */
 @media (max-width: 360px) {
     .category-card {
         padding: 6px 10px;
@@ -1646,6 +1567,16 @@ dotlottie-wc {
         font-size: 8px;
     }
     
+    /* Bottom nav responsive - CHỈNH CHO MÀN HÌNH RẤT NHỎ */
+    .nav-icon {
+        font-size: 19px;
+    }
+    
+    .nav-label {
+        font-size: 10px;
+        margin-top: -5px;
+    }
+    
     .footer-links {
         flex-direction: column;
         gap: 8px;
@@ -1654,19 +1585,13 @@ dotlottie-wc {
     .footer-divider {
         display: none;
     }
-    
-    .index-download-btn {
-        padding: 3px 10px;
-        font-size: 8px;
-        height: 24px;
-        min-width: 45px;
-    }
 }
 
+/* For desktop - larger screens */
 @media (min-width: 1024px) {
     .categories-scroll {
         gap: 10px;
-        padding: 10px 4px 5px 4px;
+        padding: 10px 4px 5px 4px; /* GIẢM PADDING DƯỚI */
     }
     
     .category-card {
@@ -1690,35 +1615,24 @@ dotlottie-wc {
         box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
     }
     
+    /* Ẩn categories hint trên desktop */
     .categories-hint {
         display: none;
     }
     
-    .floating-nav {
-        padding: 16px 20px;
-        padding-bottom: max(16px, env(safe-area-inset-bottom));
+    /* Bottom nav desktop - GIỮ KÍCH THƯỚC LỚN CHO DESKTOP */
+    .nav-icon {
+        font-size: 26px; /* TĂNG LÊN 26px CHO DESKTOP */
     }
     
-    .nav-pill {
-        padding: 8px;
-        gap: 8px;
-        max-width: 520px;
+    .nav-label {
+        margin-top: -5px;
+        font-size: 14px; /* TĂNG LÊN 14px CHO DESKTOP */
     }
     
-    .nav-pill-item {
-        padding: 10px 16px;
-        min-height: 52px;
-    }
-    
-    .nav-pill-item.active {
-        padding: 10px 22px;
-    }
-    
-    .nav-pill-icon {
-        font-size: 22px;
-    }
-    
-    .nav-pill-label {
-        font-size: 14px;
+    .nav-item.active::after {
+        bottom: 8px;
+        width: 6px;
+        height: 6px;
     }
 }
