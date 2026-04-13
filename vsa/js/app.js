@@ -10,8 +10,6 @@ class AppManager {
         // AUTO REFRESH SYSTEM
         this.autoRefreshInterval = null;
         this.lastRefreshTime = null;
-        this.autoRotateTimer = null;
-        this.cleanupAutoRotate = null;
         
         this.initializeElements();
         this.bindEvents();
@@ -50,9 +48,6 @@ class AppManager {
                     c.classList.toggle('active', c.dataset.category === category);
                 });
                 
-                // Reset view về home khi chọn category
-                this.currentView = 'home';
-                this.updateActiveNavItem('home');
                 this.renderApps();
             });
         });
@@ -74,9 +69,6 @@ class AppManager {
         // Auto refresh khi rời trang
         window.addEventListener('beforeunload', () => {
             this.stopAutoRefresh();
-            if (this.cleanupAutoRotate) {
-                this.cleanupAutoRotate();
-            }
         });
     }
 
@@ -265,12 +257,9 @@ class AppManager {
             return;
         }
 
-        // TÌM KIẾM CHÍNH XÁC TỪ ĐẦU TÊN ỨNG DỤNG
         const filteredApps = this.allApps.filter(app => {
             const appName = app.name.toLowerCase();
             const searchTermLower = searchTerm.toLowerCase();
-            
-            // Chỉ tìm kiếm ứng dụng có tên BẮT ĐẦU bằng từ khóa tìm kiếm
             return appName.startsWith(searchTermLower);
         });
 
@@ -291,7 +280,6 @@ class AppManager {
         this.updateSectionTitle();
         this.displayApps(filteredApps, this.appsGrid);
         
-        // Chỉ hiển thị games section khi ở home và category all và không có search
         if (this.currentView === 'home' && this.currentCategory === 'all' && !this.searchTerm) {
             this.gamesSection.style.display = 'block';
             const games = this.allApps.filter(app => 
@@ -331,13 +319,10 @@ class AppManager {
                 break;
         }
         
-        // TÌM KIẾM CHÍNH XÁC TỪ ĐẦU TÊN ỨNG DỤNG
         if (this.searchTerm) {
             filteredApps = filteredApps.filter(app => {
                 const appName = app.name.toLowerCase();
                 const searchTermLower = this.searchTerm.toLowerCase();
-                
-                // Chỉ tìm kiếm ứng dụng có tên BẮT ĐẦU bằng từ khóa tìm kiếm
                 return appName.startsWith(searchTermLower);
             });
         }
@@ -361,18 +346,7 @@ class AppManager {
         } else if (this.currentView === 'games') {
             title = 'Trò chơi';
         } else if (this.currentCategory !== 'all') {
-            const categoryLabels = {
-                'game': 'Trò chơi',
-                'social': 'Mạng xã hội',
-                'entertainment': 'Giải trí',
-                'photo': 'Ảnh & Video',
-                'clone': 'Nhân bản',
-                'premium': 'Premium',
-                'education': 'Giáo dục',
-                'health': 'Sức khỏe',
-                'utility': 'Tiện ích'
-            };
-            title = categoryLabels[this.currentCategory] || this.currentCategory;
+            title = CONFIG.CATEGORY_LABELS[this.currentCategory] || this.currentCategory;
         }
         
         this.sectionTitle.textContent = title;
@@ -414,23 +388,18 @@ class AppManager {
             version = version.substring(1);
         }
         
-        // Add click event to entire card
-        appCard.addEventListener('click', (e) => {
-            // Prevent navigation if the click is on the download button
-            if (e.target.closest('.index-download-btn')) {
-                return;
-            }
-            window.location.href = `app-detail.html?id=${app.id}`;
-        });
-        
         appCard.innerHTML = `
             <img src="${app.image}" alt="${app.name}" class="app-logo" 
                  loading="lazy"
+                 onclick="window.open('app-detail.html?id=${app.id}', '_self')"
                  onerror="this.src='https://via.placeholder.com/70/2563eb/FFFFFF?text=App'">
             <div class="app-content">
                 <div class="app-header">
                     <div class="app-info">
-                        <div class="app-name">${this.escapeHtml(app.name)}</div>
+                        <div class="app-name" onclick="window.open('app-detail.html?id=${app.id}', '_self')">
+                            ${app.name}
+                        </div>
+                        <!-- PHẦN MÔ TẢ ỨNG DỤNG ĐÃ ĐƯỢC CHỈNH THÀNH .app-version-meta -->
                         <div class="app-version-meta">
                             <div class="app-meta-item">
                                 <i class="fas fa-code-branch"></i>
@@ -445,7 +414,7 @@ class AppManager {
                         </div>
                     </div>
                     <div class="app-actions">
-                        <button class="index-download-btn">
+                        <button class="index-download-btn" onclick="window.open('app-detail.html?id=${app.id}', '_self')">
                             NHẬN
                         </button>
                     </div>
@@ -453,13 +422,6 @@ class AppManager {
                 ${descriptionHTML}
             </div>
         `;
-        
-        // Add click event to download button
-        const downloadBtn = appCard.querySelector('.index-download-btn');
-        downloadBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            window.location.href = `app-detail.html?id=${app.id}`;
-        });
         
         return appCard;
     }
@@ -469,22 +431,17 @@ class AppManager {
             return '<div class="app-description-check"></div>';
         }
         
-        // Split description by new lines and filter out empty lines
         const lines = description.split('\n').filter(line => line.trim().length > 0);
         
         if (lines.length === 0) {
             return '<div class="app-description-check"></div>';
         }
         
-        // Take first 2 lines
         const displayLines = lines.slice(0, 2);
-        
         let html = '<div class="app-description-check">';
         
         displayLines.forEach((line, index) => {
-            // Clean up the line - remove any extra spaces
             let cleanLine = line.trim();
-            
             html += `
                 <div class="description-item">
                     <div class="check-icon-container">
@@ -496,7 +453,6 @@ class AppManager {
         });
         
         html += '</div>';
-        
         return html;
     }
 
@@ -511,7 +467,6 @@ class AppManager {
     loadFeaturedApps() {
         if (this.allApps.length === 0) return;
         
-        // Get 20 newest apps (sort by id descending)
         const newestApps = [...this.allApps]
             .sort((a, b) => {
                 const idA = parseInt(a.id) || 0;
@@ -520,9 +475,7 @@ class AppManager {
             })
             .slice(0, 20);
         
-        // Get 5 random apps from the 20 newest
         this.featuredApps = this.getRandomApps(newestApps, 5);
-        
         this.displayFeaturedApps();
         this.initFeaturedCarousel();
     }
@@ -551,11 +504,9 @@ class AppManager {
         card.className = 'featured-card';
         
         const badge = this.getBadgeType(index);
-        
         const firstLineDescription = app.description ? 
             app.description.split('\n')[0] || app.description : 
             'Mô tả ứng dụng...';
-        
         const rating = this.getRandomRating();
         
         card.innerHTML = `
@@ -608,140 +559,49 @@ class AppManager {
         
         if (!container || this.featuredApps.length === 0) return;
         
-        let scrollTimeout;
-        let isScrolling = false;
-        
-        // Hàm cập nhật arrows và dots
-        const updateUI = () => {
+        const updateArrows = () => {
             const scrollLeft = container.scrollLeft;
             const maxScroll = container.scrollWidth - container.clientWidth;
-            const cardWidth = 320 + 12;
-            const currentIndex = Math.min(Math.round(scrollLeft / cardWidth), dots.length - 1);
             
-            // Cập nhật arrows
             if (prevArrow) {
-                prevArrow.style.display = scrollLeft > 5 ? 'flex' : 'none';
+                prevArrow.style.display = scrollLeft > 0 ? 'flex' : 'none';
             }
             if (nextArrow) {
                 nextArrow.style.display = scrollLeft < maxScroll - 10 ? 'flex' : 'none';
             }
+        };
+        
+        const updateDots = () => {
+            const scrollLeft = container.scrollLeft;
+            const cardWidth = 320 + 12;
+            const currentIndex = Math.min(Math.round(scrollLeft / cardWidth), dots.length - 1);
             
-            // Cập nhật dots
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentIndex);
             });
         };
         
-        // Scroll với animation mượt
-        const smoothScrollTo = (target, duration = 300) => {
-            const start = container.scrollLeft;
-            const change = target - start;
-            const startTime = performance.now();
-            
-            const animateScroll = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Easing function: easeOutCubic
-                const easeProgress = 1 - Math.pow(1 - progress, 3);
-                
-                container.scrollLeft = start + change * easeProgress;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animateScroll);
-                } else {
-                    updateUI();
-                    isScrolling = false;
-                }
-            };
-            
-            isScrolling = true;
-            requestAnimationFrame(animateScroll);
-        };
-        
-        // Scroll đến index
         const scrollToIndex = (index) => {
-            if (index < 0 || index >= dots.length || isScrolling) return;
-            
             const cardWidth = 320 + 12;
-            const target = index * cardWidth;
-            
-            // Dừng auto-rotate tạm thời
-            if (this.autoRotateTimer) {
-                clearInterval(this.autoRotateTimer);
-                this.autoRotateTimer = null;
-            }
-            
-            smoothScrollTo(target);
-            
-            // Bật lại auto-rotate sau 5 giây
-            setTimeout(() => {
-                if (!this.autoRotateTimer) {
-                    this.startAutoRotate();
-                }
-            }, 5000);
+            container.scrollTo({
+                left: index * cardWidth,
+                behavior: 'smooth'
+            });
         };
         
-        // Event listener cho scroll
         container.addEventListener('scroll', () => {
-            if (!isScrolling) {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    updateUI();
-                }, 50);
-            }
+            updateArrows();
+            updateDots();
         });
         
-        // Event listener cho arrows
-        if (prevArrow) {
-            prevArrow.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const currentIndex = Math.round(container.scrollLeft / (320 + 12));
-                scrollToIndex(currentIndex - 1);
-            });
-        }
-        
-        if (nextArrow) {
-            nextArrow.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const currentIndex = Math.round(container.scrollLeft / (320 + 12));
-                scrollToIndex(currentIndex + 1);
-            });
-        }
-        
-        // Event listener cho dots
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.dataset.index);
                 scrollToIndex(index);
             });
         });
         
-        // Touch events để tạm dừng auto-rotate khi người dùng tương tác
-        container.addEventListener('touchstart', () => {
-            if (this.autoRotateTimer) {
-                clearInterval(this.autoRotateTimer);
-                this.autoRotateTimer = null;
-            }
-        });
-        
-        container.addEventListener('touchend', () => {
-            setTimeout(() => {
-                if (!this.autoRotateTimer) {
-                    this.startAutoRotate();
-                }
-            }, 5000);
-        });
-        
-        // Cập nhật UI lần đầu
-        setTimeout(updateUI, 100);
-        
-        // Bắt đầu auto-rotate
+        updateArrows();
         this.startAutoRotate();
     }
 
@@ -767,107 +627,15 @@ class AppManager {
     }
 
     startAutoRotate() {
-        // Clear timer cũ nếu có
-        if (this.autoRotateTimer) {
-            clearInterval(this.autoRotateTimer);
-            this.autoRotateTimer = null;
-        }
-        
-        const container = this.featuredCarousel;
-        const dots = document.querySelectorAll('.carousel-dot');
-        
-        if (!container || dots.length === 0) return;
-        
-        let currentIndex = 0;
-        let lastInteraction = Date.now();
-        
-        // Hàm lấy index hiện tại
-        const getCurrentIndex = () => {
-            const scrollLeft = container.scrollLeft;
-            const cardWidth = 320 + 12;
-            return Math.round(scrollLeft / cardWidth);
-        };
-        
-        // Auto rotate mỗi 5 giây
-        this.autoRotateTimer = setInterval(() => {
-            // Kiểm tra thời gian tương tác cuối
-            const timeSinceLastInteraction = Date.now() - lastInteraction;
+        setInterval(() => {
+            const dots = document.querySelectorAll('.carousel-dot');
+            const activeIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
+            const nextIndex = (activeIndex + 1) % dots.length;
             
-            // Nếu người dùng vừa tương tác trong vòng 3 giây, bỏ qua
-            if (timeSinceLastInteraction < 3000) {
-                return;
+            if (dots[nextIndex]) {
+                dots[nextIndex].click();
             }
-            
-            // Nếu container đang được scroll, bỏ qua
-            if (container.scrolling) {
-                return;
-            }
-            
-            currentIndex = getCurrentIndex();
-            let nextIndex = (currentIndex + 1) % dots.length;
-            
-            const cardWidth = 320 + 12;
-            const target = nextIndex * cardWidth;
-            
-            // Scroll mượt
-            container.scrollTo({
-                left: target,
-                behavior: 'smooth'
-            });
-            
-            // Cập nhật dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === nextIndex);
-            });
         }, 5000);
-        
-        // Cập nhật lastInteraction khi có tương tác
-        const updateLastInteraction = () => {
-            lastInteraction = Date.now();
-        };
-        
-        container.addEventListener('scroll', updateLastInteraction);
-        container.addEventListener('touchstart', updateLastInteraction);
-        container.addEventListener('touchend', updateLastInteraction);
-        container.addEventListener('mousedown', updateLastInteraction);
-        
-        // Cleanup function
-        const cleanup = () => {
-            if (this.autoRotateTimer) {
-                clearInterval(this.autoRotateTimer);
-                this.autoRotateTimer = null;
-            }
-        };
-        
-        // Lưu cleanup để sử dụng sau
-        this.cleanupAutoRotate = cleanup;
-    }
-
-    // ===== NAVIGATION METHODS =====
-    
-    updateActiveNavItem(view) {
-        const navItems = document.querySelectorAll('.nav-pill-item');
-        navItems.forEach(item => {
-            const itemView = item.dataset.view;
-            if (itemView === view) {
-                item.classList.add('active');
-                item.setAttribute('aria-current', 'page');
-            } else {
-                item.classList.remove('active');
-                item.removeAttribute('aria-current');
-            }
-        });
-    }
-    
-    switchToGamesView() {
-        this.currentView = 'games';
-        this.currentCategory = 'all';
-        this.renderApps();
-    }
-    
-    switchToHomeView() {
-        this.currentView = 'home';
-        this.renderApps();
     }
 }
 
